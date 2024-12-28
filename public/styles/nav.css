@@ -1,0 +1,93 @@
+.overlay {
+  visibility: hidden;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  background-color: black;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  background-color: rgb(225, 225, 225);
+  left: 15px;
+  bottom: 10px;
+  top: 110px;
+  width: 60px;
+  color: white;
+  border-radius: 33px;
+  z-index: 3;
+  transition: width 0.7s;
+  padding: 5px;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-option {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: rgb(53, 28, 117);
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 30px;
+  width: 50px;
+  margin: 6px 4px;
+  transition: width 0.7s;
+}
+
+.nav-option:hover {
+  box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.3) inset;
+}
+
+
+.option-text {
+  width: 0px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.option-icon {
+  margin: 0px 12.5px;
+  height: 24px;
+}
+
+.nav-bar:hover {
+  width: 250px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+  transition: width 0.7s;
+}
+
+.nav-bar:hover .nav-option{
+  width: 235px;
+  transition: width 0.7s;
+}
+
+.nav-bar:hover .option-text{
+  width: fit-content;
+  opacity: 1;
+  transition-property: opacity;
+  transition-delay: 0.2s;
+  transition-duration: 0.3s;
+}
+
+.nav-bar:hover ~ .overlay {
+  visibility: visible;
+  opacity: 0.4;
+  transition: opacity 0.7s ease, visibility 0s linear 0s;
+}
