@@ -43,6 +43,16 @@ app.get('/collections', (req, res) => {
   res.render('collections', { title: 'Collections' });
 });
 
+// Upcoming Tasks page
+app.get('/assignments', (req, res) => {
+  res.render('assignments', { title: 'Assignments' });
+});
+
+// Settings page
+app.get('/settings', (req, res) => {
+  res.render('settings', { title: 'Settings' });
+});
+
 // 404 page
 app.use((req, res) => {
   res.status(404).render('404', { title: '404' });

@@ -3,3 +3,7 @@ body {
   margin-top: 220px;
   margin-left: 100px;
 }
+
+a:link {
+  text-decoration: none;
+}
