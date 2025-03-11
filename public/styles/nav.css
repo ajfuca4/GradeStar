@@ -54,12 +54,12 @@
   box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.3) inset;
 }
 
-
 .option-text {
   width: 0px;
   white-space: nowrap;
+  visibility: hidden;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.7s 0.1s;
 }
 
 .option-icon {
@@ -80,10 +80,8 @@
 
 .nav-bar:hover .option-text{
   width: fit-content;
+  visibility: visible;
   opacity: 1;
-  transition-property: opacity;
-  transition-delay: 0.2s;
-  transition-duration: 0.3s;
 }
 
 .nav-bar:hover ~ .overlay {
