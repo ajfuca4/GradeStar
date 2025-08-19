@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit'
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: rgb(80, 10, 150);
+}
+
+.form-container {
+    width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px rgb(170,170,170) ;
+}
+
+.form-inputs {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group p {
+    color: red;
+    font-weight: 300;
+    min-height: 1.2em;
+    font-size: 10px;
+    margin: 3px 0px 5px 0px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #472dbb;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.subtext {
+    font-size: 14px;
+}
+
+.submit-btn:hover {
+    background-color: #4565a0;
+}
+
+.inputErr {
+    background-color: rgb(255, 170, 170);
+}
