@@ -16,11 +16,6 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 
-
-
-
-
-
 app.get('/login', (req, res) => {
   res.render("login.ejs", { 
     emailVal: null,
