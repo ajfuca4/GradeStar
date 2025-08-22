@@ -46,7 +46,7 @@ h2 {
 }
 
 .form-group p {
-    color: red;
+    color: rgb(175, 0, 0);
     font-weight: 300;
     min-height: 1.2em;
     font-size: 10px;
@@ -77,3 +77,44 @@ h2 {
 .inputErr {
     background-color: rgb(255, 170, 170);
 }
+
+.centered {
+    text-align: center;
+}
+
+a {
+    font-size: 12px;
+}
+
+.input-bar {
+    position: relative;
+}
+
+.fa-solid {
+    color: #472dbb;
+}
+
+.fa-eye:hover {
+    color: #a08bff;
+    cursor: pointer;
+}
+
+.fa-eye-slash:hover {
+    color: #a08bff;
+    cursor: pointer;
+}
+
+
+
+.input-bar .fa-solid {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.highlight {
+    border-color: red;
+    border-style: solid;
+}
+

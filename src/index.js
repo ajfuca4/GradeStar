@@ -20,14 +20,16 @@ app.get('/login', (req, res) => {
   res.render("login.ejs", { 
     emailVal: null,
     passwordVal: null,
-    emailErrMsg: null });
+    emailErrMsg: null,
+    passwordErrMsg: null });
 });
 
 app.get('/signup', (req, res) => {
   res.render("signup.ejs", { 
     emailVal: null,
     passwordVal: null,
-    emailErrMsg: null })
+    emailErrMsg: null,
+    passwordErrMsg: null })
 });
 
 app.post("/signup", async (req, res) => {
@@ -63,12 +65,41 @@ app.post("/signup", async (req, res) => {
 
 // Login Route
 app.post("/login", async (req, res) => {
+
+  // Get user data
+  const data = {
+    email: req.body.email,
+    password: req.body.password
+  }
+
   try {
-    // Check if user exists in database
-    const userExists = await collection.findOne({ name: req.body.username })
+
+    // Check if users email exists in database
+    const userExists = await collection.findOne({ email: data.email })
+    
+    // If user does not exist show an error.
     if (!userExists) {
-      // If not, Show an error.
-      res.render();
+      res.render("login", { 
+        emailVal: data.email,
+        passwordVal: data.password,
+        emailErrMsg: "Incorrect login information.",
+        passwordErrMsg: "Incorrect login information." 
+      });
+    }
+    
+    // Check if the password inputted matches the email 
+    const isPasswordCorrect = await bcrypt.compare(req.body.password, check.password);
+    if (isPasswordCorrect) {
+      const username = req.body.username;
+      res.render("dashboard", {username})
+    }
+    else {
+      res.render("login", { 
+        emailVal: data.email,
+        passwordVal: data.password,
+        emailErrMsg: "Incorrect login information.",
+        passwordErrMsg: "Incorrect login information." 
+      });
     }
   }
   catch {
