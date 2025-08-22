@@ -28,7 +28,7 @@ h2 {
 }
 
 .form-inputs {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .form-group label {
@@ -40,12 +40,13 @@ h2 {
 .form-group input {
     width: 100%;
     padding: 10px;
+    padding-right: 12%;
     font-size: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.form-group p {
+.form-group .err-text {
     color: rgb(175, 0, 0);
     font-weight: 300;
     min-height: 1.2em;
@@ -90,21 +91,57 @@ a {
     position: relative;
 }
 
+.req-box {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    max-height:1000px;
+    transition: max-height .7s ease;
+}
+
+.password-req {
+  max-height: 0;
+  overflow: hidden;     
+  opacity: 0;
+  transition: max-height 1.5s ease, opacity 1.7s ease;
+}
+
+.password-req.expand {
+  max-height: 200px;
+  opacity: 1;           
+}
+
+.shrink {
+    max-height: 0;
+    overflow: hidden;
+    border: 0;
+    transition: max-height .7s ease;
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity .5s ease;  
+}
+
+.unhide {
+  opacity: 1;
+  transition: opacity .5s ease;           
+}
+
 .fa-solid {
-    color: #472dbb;
+    color:#472dbb;
 }
 
-.fa-eye:hover {
+.fa-circle-xmark {
+    color: #af0000;
+    font-size: 8px;
+    margin-right: 3px;
+}
+
+.fa-eye:hover, .fa-eye-slash:hover {
     color: #a08bff;
     cursor: pointer;
 }
-
-.fa-eye-slash:hover {
-    color: #a08bff;
-    cursor: pointer;
-}
-
-
 
 .input-bar .fa-solid {
     position: absolute;
@@ -113,8 +150,25 @@ a {
     transform: translateY(-50%);
 }
 
+.password-req {
+    padding-left: 5px;
+}
+
 .highlight {
     border-color: red;
     border-style: solid;
 }
 
+p.satisfied {
+    color:#009700;
+    font-weight: 300;
+    min-height: 1.2em;
+    font-size: 10px;
+    margin: 3px 0px 5px 0px;
+}
+
+.fa-circle-check {
+    color:#009700;
+    font-size: 8px;
+    margin-right: 3px;
+}

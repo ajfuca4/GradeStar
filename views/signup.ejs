@@ -20,14 +20,31 @@
                             <i class="fa-solid fa-envelope"></i>
                             <input type="text" value="<%= emailVal %>" class="<%= emailErrMsg ? 'inputErr' : '' %>" id="email-input" name="email" placeholder="Email Address" required autocomplete="off">
                         </div>
-                        <p id="email-err" class="form-err"> <%= emailErrMsg %> </p>
+                        <p id="email-err" class="err-text"> <%= emailErrMsg %> </p>
                     </div>
                     <div class="form-group">
                         <div class="input-bar">
                             <i id="passwordHide" class="fa-solid fa-eye"></i>
                             <input type="password" id="password" value="<%= passwordVal %>" name="password" placeholder="Password">
                         </div>
-                        <p id="password-err" class="form-err"> </p>
+                        <div id="password-req" class="password-req">
+                            <div class="req-box length-req" id="length-req-box">
+                                <i class="fa-solid fa-circle-xmark length-req"></i>
+                                <p class="err-text length-req"> Contains 6-30 characters </p>
+                            </div>
+                            <div class="req-box" id="lower-req-box">
+                                <i class="fa-solid fa-circle-xmark lower-req"></i>
+                                <p class="err-text lower-req"> At least 1 lowercase character </p>
+                            </div>
+                            <div class="req-box" id="upper-req-box">
+                                <i class="fa-solid fa-circle-xmark upper-req"></i>
+                                <p class="err-text upper-req"> At least 1 uppercase character </p>
+                            </div>
+                            <div class="req-box" id="num-spec-req-box">
+                                <i class="fa-solid fa-circle-xmark num-spec-req"></i>
+                                <p class="err-text num-spec-req"> At least 1 number or special character </p>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="submit-btn">Sign Up</button>
                 </form>
@@ -39,6 +56,6 @@
         </div>
     </body>
     <script src="signup-script.js"></script>
-    <script src="password-hiding-script.js"></script>
+    <script src="password-scripts.js"></script>
 </html>
 
