@@ -171,13 +171,13 @@ input.addEventListener("input", () => {
         }
 
         // Number & Special Character Requirement
-        if (/[/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
+        if (/[0-9/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
             for (let element of numSpecReq) {
                 if (element.classList.contains("err-text")) {
                     element.classList.remove("err-text");
                     element.classList.add("satisfied");
                     setTimeout(() => {
-                        if (/[/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
+                        if (/[0-9/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
                             element.classList.remove("unhide");
                             element.classList.add("hide");
                         }
@@ -188,7 +188,7 @@ input.addEventListener("input", () => {
                     element.classList.remove("fa-circle-xmark");
                     element.classList.add("fa-circle-check");
                     setTimeout(() => {
-                        if (/[/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
+                        if (/[0-9/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
                             element.classList.remove("unhide");
                             element.classList.add("hide");
                         }
@@ -196,7 +196,7 @@ input.addEventListener("input", () => {
                 }
             }
             setTimeout(() => {
-                if (/[/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
+                if (/[0-9/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
                     document.getElementById("num-spec-req-box").classList.add("shrink");
                 }
             }, 1100);
@@ -217,34 +217,6 @@ input.addEventListener("input", () => {
                     element.classList.remove("hide");
                     element.classList.add("fa-circle-xmark");
                     element.classList.add("unhide");
-                }
-            }
-        }
-
-        // Number and Special Characters Requirement
-        if (/[/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(input.value)) {
-            for (let element of numSpecReq) {
-                if (element.classList.contains("err-text")) {
-                    element.classList.remove("err-text");
-                    element.classList.add("satisfied");
-                    
-                }
-                if (element.classList.contains('fa-circle-xmark')) {
-                    element.classList.remove("fa-circle-xmark");
-                    element.classList.add("fa-circle-check");
-                }
-            }
-        }
-        else 
-        {
-            for (let element of numSpecReq) {
-                if (element.classList.contains("satisfied")) {
-                    element.classList.remove("satisfied");
-                    element.classList.add("err-text");
-                }
-                if (element.classList.contains('fa-circle-check')) {
-                    element.classList.remove("fa-circle-check");
-                    element.classList.add("fa-circle-xmark");
                 }
             }
         }
