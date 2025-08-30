@@ -19,6 +19,10 @@ h2 {
     color: rgb(80, 10, 150);
 }
 
+p {
+    margin: 2px 0px;
+}
+
 .form-container {
     width: 350px;
     margin: 0 auto;
@@ -46,12 +50,14 @@ h2 {
     border-radius: 5px;
 }
 
-.form-group .err-text {
+.fa-solid.input-bar {
+    color: #472dbb;
+}
+
+.err-text {
     color: rgb(175, 0, 0);
     font-weight: 300;
-    min-height: 1.2em;
     font-size: 10px;
-    margin: 3px 0px 5px 0px;
 }
 
 .submit-btn {
@@ -89,53 +95,34 @@ a {
 
 .input-bar {
     position: relative;
+    margin-bottom: 5px;
 }
 
 .req-box {
     align-items: center;
     display: flex;
     flex-direction: row;
-    max-height:1000px;
-    transition: max-height .7s ease;
-}
-
-.password-req {
-  max-height: 0;
-  overflow: hidden;     
-  opacity: 0;
-  transition: max-height 1.5s ease, opacity 1.7s ease;
-}
-
-.password-req.expand {
-  max-height: 200px;
-  opacity: 1;           
+    max-height: 20px;
+    transition: max-height 1s ease;
 }
 
 .shrink {
-    max-height: 0;
+    max-height: 0px;
     overflow: hidden;
-    border: 0;
-    transition: max-height .7s ease;
 }
 
-.hide {
-  opacity: 0;
-  transition: opacity .5s ease;  
+.hidden {
+    max-height: 0px;
+    overflow: hidden;
 }
 
-.unhide {
-  opacity: 1;
-  transition: opacity .5s ease;           
-}
-
-.fa-solid {
-    color:#472dbb;
-}
-
-.fa-circle-xmark {
-    color: #af0000;
+.req-box i {
     font-size: 8px;
     margin-right: 3px;
+}
+
+.fa-solid.fa-circle-check {
+    color:#009700;
 }
 
 .fa-eye:hover, .fa-eye-slash:hover {
@@ -159,16 +146,8 @@ a {
     border-style: solid;
 }
 
-p.satisfied {
+.satisfied {
     color:#009700;
     font-weight: 300;
-    min-height: 1.2em;
     font-size: 10px;
-    margin: 3px 0px 5px 0px;
-}
-
-.fa-circle-check {
-    color:#009700;
-    font-size: 8px;
-    margin-right: 3px;
 }

@@ -16,33 +16,34 @@
                 <h2> Sign Up </h2>
                 <form id="signup" action="/signup" method="post">
                     <div class="form-group">
+                        <p id="email-err" class="err-text"> <%= emailErrMsg %> </p>
                         <div class="input-bar">
                             <i class="fa-solid fa-envelope"></i>
                             <input type="text" value="<%= emailVal %>" class="<%= emailErrMsg ? 'inputErr' : '' %>" id="email-input" name="email" placeholder="Email Address" required autocomplete="off">
                         </div>
-                        <p id="email-err" class="err-text"> <%= emailErrMsg %> </p>
                     </div>
                     <div class="form-group">
+                        <p id="password-err" class="err-text"> <%= passwordErrMsg %> </p>
                         <div class="input-bar">
                             <i id="passwordHide" class="fa-solid fa-eye"></i>
-                            <input type="password" id="password" value="<%= passwordVal %>" name="password" placeholder="Password">
+                            <input type="password" id="password" value="<%= passwordVal %>" class="<%= passwordErrMsg ? 'inputErr' : '' %>" name="password" placeholder="Password">
                         </div>
                         <div id="password-req" class="password-req">
-                            <div class="req-box length-req" id="length-req-box">
-                                <i class="fa-solid fa-circle-xmark length-req"></i>
-                                <p class="err-text length-req"> Contains 6-30 characters </p>
+                            <div class="req-box <%= initialLoad ? 'shrink' : '' %> fa-circle-xmark <%= validLength ? 'satisfied shrink' : 'err-text' %>" id="length-req-box">
+                                <i class="fa-solid length-req"></i>
+                                <p class="length-req"> Contains 6-30 characters </p>
                             </div>
-                            <div class="req-box" id="lower-req-box">
-                                <i class="fa-solid fa-circle-xmark lower-req"></i>
-                                <p class="err-text lower-req"> At least 1 lowercase character </p>
+                            <div class="req-box <%= initialLoad ? 'shrink' : '' %> fa-circle-xmark <%= containsLower ? 'satisfied shrink' : 'err-text' %>" id="lower-req-box">
+                                <i class="fa-solid lower-req"></i>
+                                <p class="lower-req"> At least 1 lowercase character </p>
                             </div>
-                            <div class="req-box" id="upper-req-box">
-                                <i class="fa-solid fa-circle-xmark upper-req"></i>
-                                <p class="err-text upper-req"> At least 1 uppercase character </p>
+                            <div class="req-box <%= initialLoad ? 'shrink' : '' %> fa-circle-xmark <%= containsUpper ? 'satisfied shrink' : 'err-text' %>" id="upper-req-box">
+                                <i class="fa-solid upper-req"></i>
+                                <p class="upper-req"> At least 1 uppercase character </p>
                             </div>
-                            <div class="req-box" id="num-spec-req-box">
-                                <i class="fa-solid fa-circle-xmark num-spec-req"></i>
-                                <p class="err-text num-spec-req"> At least 1 number or special character </p>
+                            <div class="req-box <%= initialLoad ? 'shrink' : '' %> fa-circle-xmark <%= containsNumSpec ? 'satisfied shrink' : 'err-text' %>" id="num-spec-req-box">
+                                <i class="fa-solid num-spec-req"></i>
+                                <p class="num-spec-req"> At least 1 number or special character </p>
                             </div>
                         </div>
                     </div>
@@ -55,7 +56,7 @@
             </div>
         </div>
     </body>
-    <script src="signup-script.js"></script>
+    <script src="email-scripts.js"></script>
     <script src="password-scripts.js"></script>
 </html>
 
