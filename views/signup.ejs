@@ -26,7 +26,7 @@
                         <p id="password-err" class="err-text"> <%= passwordErrMsg %> </p>
                         <div class="input-bar">
                             <i id="passwordHide" class="fa-solid fa-eye"></i>
-                            <input type="password" id="password" value="<%= passwordVal %>" class="<%= passwordErrMsg ? 'inputErr' : '' %>" name="password" placeholder="Password">
+                            <input type="password" id="password" value="<%= passwordVal %>" class="<%= passwordErrMsg ? 'inputErr' : '' %>" name="password" placeholder="Password" required autocomplete="off">
                         </div>
                         <div id="password-req" class="password-req">
                             <div class="req-box <%= initialLoad ? 'shrink' : '' %> fa-circle-xmark <%= validLength ? 'satisfied shrink' : 'err-text' %>" id="length-req-box">

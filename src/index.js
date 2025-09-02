@@ -3,7 +3,8 @@ const collection = require('./config');
 //const path = require('path');
 const bcrypt = require('bcrypt');
 //const { name } = require('ejs');
-const password = require('./utils/password-policy.js');
+const passwordPolicy = require('./utils/password-policy.js');
+const emailValidation = require('./utils/email-validation.js');
 
 const app = express();
 
@@ -53,26 +54,34 @@ app.post("/signup", async (req, res) => {
     emailErrMsg: null,
     passwordErrMsg: null,
     initialLoad: false,
-    validLength: password.lengthReq(inputData.password),
-    containsUpper: password.upperReq(inputData.password),
-    containsLower: password.lowerReq(inputData.password),
-    containsNumSpec: password.numSpecReq(inputData.password)
+    validLength: passwordPolicy.lengthReq(inputData.password),
+    containsUpper: passwordPolicy.upperReq(inputData.password),
+    containsLower: passwordPolicy.lowerReq(inputData.password),
+    containsNumSpec: passwordPolicy.numSpecReq(inputData.password)
   }
 
   // Check if user already exists
   const userExists = await collection.findOne({email: inputData.email});
-
-  if (userExists || !password.isValidPassword(inputData.password)) {
-    if (userExists) {
-      renderVals.emailErrMsg = "There is already an account with this email. Log in or use a different email."
+  console.log(1);
+  if (userExists || !passwordPolicy.isValidPassword(inputData.password) || !emailValidation.isValidEmail(inputData.email)) {
+    console.log(2);
+    if (!emailValidation.isValidEmail(inputData.email)) {
+      console.log(3);
+      console.log("this works");
+      renderVals.emailErrMsg = "This is not a valid email."
+    } 
+    else if (userExists) {
+      console.log(3);
+      renderVals.emailErrMsg = "An account already exists with this email."
     }
-    if (!password.isValidPassword(inputData.password)) {
+
+    if (!passwordPolicy.isValidPassword(inputData.password)) {
+      console.log(4);
       renderVals.passwordErrMsg = "Password does not meet all the requirements.";
     }
+    console.log(5);
     res.render("signup.ejs", renderVals);
   }
-  
-  
   // Otherwise, create new user
   else {
     // Hash the password
