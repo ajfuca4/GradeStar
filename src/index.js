@@ -20,14 +20,20 @@ app.use(express.static('public'));
 
 app.get('/login', (req, res) => {
   res.render("login.ejs", { 
+    title: "Login",
     emailVal: null,
     passwordVal: null,
     emailErrMsg: null,
     passwordErrMsg: null });
 });
 
+app.get('/home', (req, res) => {
+  res.render("home.ejs", { title: "Home", email: "Test" });
+});
+
 app.get('/signup', (req, res) => {
   res.render("signup.ejs", { 
+    title: "Signup",
     emailVal: '',
     passwordVal: '',
     emailErrMsg: '',
@@ -49,6 +55,7 @@ app.post("/signup", async (req, res) => {
 
   // Set the default values of all the variables in the ejs page
   const renderVals = {
+    title: "Signup",
     emailVal: inputData.email,
     passwordVal: inputData.password,
     emailErrMsg: null,
@@ -62,24 +69,18 @@ app.post("/signup", async (req, res) => {
 
   // Check if user already exists
   const userExists = await collection.findOne({email: inputData.email});
-  console.log(1);
   if (userExists || !passwordPolicy.isValidPassword(inputData.password) || !emailValidation.isValidEmail(inputData.email)) {
-    console.log(2);
     if (!emailValidation.isValidEmail(inputData.email)) {
-      console.log(3);
       console.log("this works");
       renderVals.emailErrMsg = "This is not a valid email."
     } 
     else if (userExists) {
-      console.log(3);
       renderVals.emailErrMsg = "An account already exists with this email."
     }
 
     if (!passwordPolicy.isValidPassword(inputData.password)) {
-      console.log(4);
       renderVals.passwordErrMsg = "Password does not meet all the requirements.";
     }
-    console.log(5);
     res.render("signup.ejs", renderVals);
   }
   // Otherwise, create new user
@@ -112,6 +113,7 @@ app.post("/login", async (req, res) => {
     console.log(!userExists);
     if (!userExists) {
       res.render("login", { 
+        title: "Login",
         emailVal: inputData.email,
         passwordVal: inputData.password,
         emailErrMsg: "Incorrect login information.",
@@ -124,10 +126,11 @@ app.post("/login", async (req, res) => {
     console.log(isPasswordCorrect);
     if (isPasswordCorrect) {
 
-      res.render("home", { email: userExists.email });
+      res.render("home", { title: "Home", email: userExists.email });
     }
     else {
       res.render("login", { 
+        title: "Login",
         emailVal: inputData.email,
         passwordVal: inputData.password,
         emailErrMsg: "Incorrect login information.",
