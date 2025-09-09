@@ -9,3 +9,28 @@
     margin: 20px;
     height: 50px;
 }
+
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    left: 0px;
+    top: 100px;
+    bottom: 0px;
+    width: 80px;
+    padding: 5px;
+}
+
+.sidebar-btn {
+    color: white;
+    font-size: 30px;
+    aspect-ratio: 1;
+    margin: 10px 5px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+}
+
+.sidebar-btn:hover {
+    background-color: #472dbb;
+}
