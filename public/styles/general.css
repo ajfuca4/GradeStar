@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit'
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: rgb(80, 10, 150);
+}
+
+p {
+    margin: 2px 0px;
+}
+
+.form-container {
+    width: 350px;
+    margin: 0 auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px rgb(170,170,170) ;
+}
+
+.form-inputs {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 12%;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.fa-solid.input-bar {
+    color: #472dbb;
+}
+
+.err-text {
+    color: rgb(175, 0, 0);
+    font-weight: 300;
+    font-size: 10px;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #472dbb;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.subtext {
+    font-size: 14px;
+}
+
+.submit-btn:hover {
+    background-color: #4565a0;
+}
+
+.inputErr {
+    background-color: rgb(255, 170, 170);
+}
+
+.centered {
+    text-align: center;
+}
+
+a {
+    font-size: 12px;
+}
+
+.input-bar {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.req-box {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    max-height: 20px;
+    transition: max-height 1s ease;
+}
+
+.shrink {
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.hidden {
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.req-box i {
+    font-size: 8px;
+    margin-right: 3px;
+}
+
+.fa-solid.fa-circle-check {
+    color:#009700;
+}
+
+.fa-eye:hover, .fa-eye-slash:hover {
+    color: #a08bff;
+    cursor: pointer;
+}
+
+.input-bar .fa-solid {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.password-req {
+    padding-left: 5px;
+}
+
+.highlight {
+    border-color: red;
+    border-style: solid;
+}
+
+.satisfied {
+    color:#009700;
+    font-weight: 300;
+    font-size: 10px;
+}
