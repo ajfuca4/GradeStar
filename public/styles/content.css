@@ -1,0 +1,9 @@
+.content-title {
+    margin-bottom: 8px;
+}
+
+.content-title-div {
+    width: calc(100% - 30px);
+    border-bottom: solid 1px #cccccc;
+}
+

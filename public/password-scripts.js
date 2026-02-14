@@ -16,7 +16,6 @@ input.addEventListener("click", () => {
     }
 })
 
-
 input.addEventListener("input", () => {
     setTimeout(() => {
 

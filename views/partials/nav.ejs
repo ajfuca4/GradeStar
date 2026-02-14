@@ -1,33 +1,39 @@
 <link rel="stylesheet" href="styles/nav.css">
 <nav>
-    <div class="nav">
-        <img class="logo" src="https://docs.google.com/drawings/d/e/2PACX-1vSdQFOyS15fG75B6wmM4j2Ab9qSed40VM4pvxZbELhvdvnqxCPoO4z0W3p6uHAxOCOqfuUCHViik9ls/pub?w=821&h=162">
-    </div>
-    <div class="sidebar">
-        <div class="sidebar-div">
-            <button class="sidebar-btn">
-                <i class="fa-solid fa-book"></i>
+    <ul id="nav">
+        <header class="nav-div">
+            <img id="logo" src="https://docs.google.com/drawings/d/e/2PACX-1vSdQFOyS15fG75B6wmM4j2Ab9qSed40VM4pvxZbELhvdvnqxCPoO4z0W3p6uHAxOCOqfuUCHViik9ls/pub?w=12319&h=2432">
+        </header>
+        <ul class="nav-div scaleable">
+            <button id="classes-btn" class="selectable-btn">
+                <div class="selectable-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house sidebar-icon" data-fg-dqpt9="2.26:11.373:/src/app/components/Sidebar.tsx:39:15:1343:33:e:Icon"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                </div>
+                <span class="selectable-btn-text">Classes</span>
             </button>
-            <p class="sidebar-btn-text"> Classes </p>
-        </div>
-        <div class="sidebar-div">
-            <button class="sidebar-btn">
-                <i class="fa-solid fa-layer-group"></i>
+            <button id="collections-btn" class="selectable-btn">
+                <div class="selectable-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-open sidebar-icon" data-fg-dqpt9="2.26:11.373:/src/app/components/Sidebar.tsx:39:15:1343:33:e:Icon"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path></svg>
+                </div>
+                <span class="selectable-btn-text">Collections</span>
             </button>
-            <p class="sidebar-btn-text"> Collections </p>
-        </div>
-        <div class="sidebar-div">
-            <button class="sidebar-btn">
-                <i class="fa-solid fa-list-check"></i>
+            <button id="tasks-btn" class="selectable-btn">
+                <div class="selectable-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-check-big sidebar-icon" data-fg-dqpt9="2.26:11.373:/src/app/components/Sidebar.tsx:39:15:1343:33:e:Icon"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"></path><path d="m9 11 3 3L22 4"></path></svg>
+                </div>
+                <span class="selectable-btn-text">Tasks</span>
             </button>
-            <p class="sidebar-btn-text"> Tasks </p>
-        </div>
-        <div class="flex-space-fill"></div>
-        <div class="sidebar-div">
-            <button class="sidebar-btn">
-                <i class="fa-solid fa-gear"></i>
+            <li class="spacer"></li>
+            <button id="settings-btn" class="selectable-btn">
+                <div class="selectable-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings sidebar-icon" data-fg-dqpt9="2.26:11.373:/src/app/components/Sidebar.tsx:39:15:1343:33:e:Icon"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <span class="selectable-btn-text">Settings</span>
             </button>
-            <p class="sidebar-btn-text"> Settings </p>
-        </div>
-    </div>
+        </ul>
+        <ul class="nav-div">
+            ACCOUNT
+        </ul>
+    </ul>
 </nav>
+<script src="nav-scripts.js"></script>

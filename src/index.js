@@ -27,8 +27,29 @@ app.get('/login', (req, res) => {
     passwordErrMsg: null });
 });
 
-app.get('/home', (req, res) => {
-  res.render("home.ejs", { title: "Home", email: "Test" });
+app.get('/classes', (req, res) => {
+  res.render("classes.ejs", { title: "Home", email: "Test", 
+    classes: [ {title: "Deterministic OR Models",
+                code: "CO370",
+                colour: "orange",
+                grade: 90
+    }, {title: "Non-Linear Optimization",
+                code: "CO367",
+                colour: "red",
+                grade: 90
+    },{title: "App Development",
+                code: "CS346",
+                colour: "green",
+                grade: 90
+    },{title: "Strategic Management I",
+                code: "BU481",
+                colour: "teal",
+                grade: 90
+    },{title: "Options, Futures, & Swaps",
+                code: "BU423",
+                colour: "blue",
+                grade: 90
+}] });
 });
 
 app.get('/signup', (req, res) => {
