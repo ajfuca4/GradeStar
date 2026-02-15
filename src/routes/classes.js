@@ -3,8 +3,10 @@ const router = express.Router();
 
 // GET /classes - Show classes page
 router.get('/', (req, res) => {
+  const title = "Classes"
+
   res.render("classes.ejs", { 
-    title: "Home", 
+    title: title, 
     email: "Test", 
     classes: [
       {

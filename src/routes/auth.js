@@ -5,6 +5,11 @@ const bcrypt = require('bcrypt');
 const passwordPolicy = require('../utils/password-policy.js');
 const emailValidation = require('../utils/email-validation.js');
 
+// GET / - Redirect to login
+router.get('/', (req, res) => {
+  res.redirect('/login');
+});
+
 // GET /login - Show login page
 router.get('/login', (req, res) => {
   res.render("login.ejs", { 
@@ -43,7 +48,7 @@ router.post("/login", async (req, res) => {
     // Check if the password inputted matches the email 
     const isPasswordCorrect = await bcrypt.compare(inputData.password, userExists.password);
     if (isPasswordCorrect) {
-      res.render("home", { title: "Home", email: userExists.email });
+      res.render("classes", { title: "Classes", email: userExists.email });
     } else {
       res.render("login", { 
         title: "Login",
