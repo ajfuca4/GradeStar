@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
     // Check if the password inputted matches the email 
     const isPasswordCorrect = await bcrypt.compare(inputData.password, userExists.password);
     if (isPasswordCorrect) {
-      res.render("classes", { title: "Classes", email: userExists.email });
+      res.redirect("/classes");
     } else {
       res.render("login", { 
         title: "Login",

@@ -100,7 +100,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    classes: [classSchema]
+    classes: [classSchema],
+    startDateSeparation: {
+        type: Boolean,
+        required: true
+    }
 }, {
     timestamps: true  // Adds createdAt and updatedAt
 });
