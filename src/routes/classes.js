@@ -5,41 +5,162 @@ const router = express.Router();
 router.get('/', (req, res) => {
   const title = "Classes"
 
+  const theclass = {
+    title: "Linear Algebra 2 for Honours Mathematics",
+    code: "MATH235",
+    colour: "orange",
+    startDate: Date(2026, 5, 4),
+    grade: 96,
+    taskGroups: [{
+      title: "Assigments",
+      weight: 5,
+      isEvenWeight: true,
+      tasks: [{
+        title: "Assigment 1",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 2",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 3",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 4",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 5",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 6",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 7",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 8",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 9",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Assigment 10",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      }]
+    },
+    {
+      title: "Mobius Assigments",
+      weight: 10,
+      isEvenWeight: true,
+      tasks: [{
+        title: "Mobius Assigment 1",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      },
+      {
+        title: "Mobius Assigment 2",
+        pointsAchieved: 100,
+        pointBasis: 100,
+        dueDate: Date(2026, 4, 20),
+        completed: false,
+        graded: false,
+        weight: 1,
+      }]
+    }],
+    uniqueTasks: [{
+      title: "Midterm Exam",
+      pointsAchieved: 36,
+      pointBasis: 39,
+      dueDate: Date(2026, 3, 6),
+      weight: 25,
+      completed: true,
+      graded: true
+    },
+    {
+      title: "Final Exam",
+      pointsAchieved: 0,
+      pointBasis: 100,
+      dueDate: Date(2026, 4, 11),
+      weight: 55,
+      completed: false,
+      graded: false
+    }]
+  }
+
+  const classArr = []
+
+  for (i = 100; i >= 0; i--) {
+    let newClass = theclass;
+    newClass.grade = i;
+    classArr.push({...theclass, grade:i});
+  }
+
   res.render("classes.ejs", { 
     title: title, 
     email: "Test", 
-    classes: [
-      {
-        title: "Deterministic OR Models",
-        code: "CO370",
-        colour: "orange",
-        grade: 90
-      },
-      {
-        title: "Non-Linear Optimization",
-        code: "CO367",
-        colour: "red",
-        grade: 90
-      },
-      {
-        title: "App Development",
-        code: "CS346",
-        colour: "green",
-        grade: 90
-      },
-      {
-        title: "Strategic Management I",
-        code: "BU481",
-        colour: "teal",
-        grade: 90
-      },
-      {
-        title: "Options, Futures, & Swaps",
-        code: "BU423",
-        colour: "blue",
-        grade: 90
-      }
-    ] 
+    classes: classArr
   });
 });
 

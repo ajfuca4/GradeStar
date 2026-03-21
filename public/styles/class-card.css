@@ -1,0 +1,103 @@
+.class-card {
+    border: solid 2px var(--border-grey-color);
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    border-radius: 1rem;
+    background-color: white;
+    cursor: pointer;
+    height: 7rem;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.class-card:hover {
+    box-shadow: 0 0 0.5rem 0rem rgba(0,0,0,0.25);
+}
+
+.class-card-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.class-card-text1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.class-card-text2 {
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-grey-color)
+}
+
+#options-btn {
+    height: 2rem;
+    padding: 0.25rem
+}
+
+.pct-wheel {
+    position: relative;
+    flex-shrink: 0;
+    height: 4rem;
+    width: 4rem;
+    border: none;
+}
+
+.pct-wheel-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.pct-wheel-track {
+    stroke: var(--background-grey-color);
+}
+
+.pct-wheel-fill {
+    stroke: var(--gradestar-purple2-color);
+    stroke-linecap: round;
+}
+
+.pct-wheel-value {
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--gradestar-purple1-color);
+    text-align: center;
+}
+
+.pct-wheel-suffix {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+#deliverables-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+#deliverables {
+    padding: 0.05rem 1rem;
+    background-color: var(--background-grey-color);
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    margin: 0.15rem;
+    transition: background-colour 0.2s ease-in-out;
+}
+
+#deliverables:hover {
+    background-color: var(--hover-grey-color);
+}
+
+#deliverables:active {
+    background-color: var(--border-grey-color);
+}
+

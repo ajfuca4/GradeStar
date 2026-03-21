@@ -141,6 +141,7 @@ a {
     --hover-grey-color: #e9e9e9;
     --text-grey-color: #6b7280;
     --background-grey-color: #f5f5f5;
+    --border-grey-color: #cccccc;
 }
 
 h1 {
@@ -158,6 +159,11 @@ body {
     bottom: 0rem;
     background-color: var(--background-grey-color);
 }
+
+ul {
+    list-style-type: none;
+}
+
 
 .selectable-btn {
     color: #7f7f7f;
@@ -220,3 +226,56 @@ body {
     background-color: var(--gradestar-purple2-color);
     cursor: pointer;
 }
+
+.square {
+    aspect-ratio: 1/1;
+    border: solid blue 1px;
+}
+
+.circle {
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.elipsis-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.test {
+    border: solid 1px red;
+}
+
+.subtle-text {
+    color: var(--text-grey-color);
+    font-weight: 300;
+    font-size: small;
+    font-style: italic;
+}
+
+.super-subtle-text {
+    color: var(--text-grey-color);
+    font-weight: 300;
+    font-size: x-small;
+    font-style: italic;
+}
+
+.progress-bar-outer {
+    background-color: var(--hover-grey-color);
+    border-radius: 999px;
+    height: 0.25rem;
+}
+
+.progress-bar-inner {
+    background-color: var(--gradestar-purple1-color);
+    border-radius: 999px;
+    height: 0.25rem;
+}
+
