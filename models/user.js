@@ -70,6 +70,10 @@ const classSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    endDate: {
+        type: Date,
+        required: false
+    },
     grade: {
         type: Number,
         required: true,

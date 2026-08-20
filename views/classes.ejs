@@ -3,11 +3,13 @@
 
 <%- include("./partials/head.ejs") %>
 <%- include("./partials/nav.ejs") %>
+<%- include("./partials/popup.ejs") %>
+
 <header id="page-header">
     <h1>
         My <%= title %>
     </h1>
-    <button class="clickable-btn">
+    <button type="button" id="add-class-btn" class="emphasis-btn" onclick="openPopUp('add-class-tmpl')">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus icon-sm" data-fg-ci38="3.7:3.3170:/src/app/components/Dashboard.tsx:38:11:1150:28:e:Plus::::::ISW">
             <path d="M5 12h14"></path><path d="M12 5v14"></path>
         </svg>
@@ -15,20 +17,12 @@
     </button>
 </header>
 <ul class="content-list">
-    <% const _monthYearFmt = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }); %>
-    <% let _prevMonthYearKey = null %>
     <% classes.forEach(function(c) { %>
-        <% const _sd = c.startDate instanceof Date ? c.startDate : new Date(c.startDate); %>
-        <% const _monthYearKey = _sd.getFullYear() + '-' + _sd.getMonth(); %>
-        <% if (startDateSeparation && _prevMonthYearKey !== _monthYearKey) { %>
-            <li class="classes-month-separator">
-                <span class="subtle-text"><%= _monthYearFmt.format(_sd) %></span>
-                <span class="classes-month-line" aria-hidden="true"></span>
-            </li>
-        <% } %>
         <%- include("./partials/class-card.ejs", { classItem: c }) %>
-        <% _prevMonthYearKey = _monthYearKey %>
     <% }) %>
 </ul>
-  
+
+<template id="add-class-tmpl">
+    <%- include("./partials/PopupViews/add-class-popup.ejs") %>
+</template>
 

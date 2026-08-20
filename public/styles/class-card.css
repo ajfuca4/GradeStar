@@ -33,9 +33,18 @@
     color: var(--text-grey-color)
 }
 
-#options-btn {
+.class-card-dates {
+    font-weight: 300;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--border-grey-color);
+    white-space: nowrap;
+}
+
+.options-btn {
     height: 2rem;
-    padding: 0.25rem
+    padding: 0.25rem;
+    background-color: white;
 }
 
 .pct-wheel {
@@ -89,7 +98,7 @@
     background-color: var(--background-grey-color);
     border-radius: 0.5rem;
     white-space: nowrap;
-    margin: 0.15rem;
+    margin: 0.15rem 0rem;
     transition: background-colour 0.2s ease-in-out;
 }
 
@@ -99,5 +108,15 @@
 
 #deliverables:active {
     background-color: var(--border-grey-color);
+}
+
+#deliverableOverflow {
+    display: flex; 
+    margin-right: 0.5rem; 
+    justify-content: end;
+}
+
+#deliverableOverflow span:hover {
+    text-decoration: underline;
 }
 

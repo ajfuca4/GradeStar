@@ -1,0 +1,60 @@
+#overlay {
+    position: absolute;
+    right: 0;
+    left: -14rem;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+#popup-window {
+    position: relative;
+    background-color: white;
+    border-radius: 20px;
+    min-width: 30rem;
+    min-height: 15rem;
+    max-width: 45rem;
+    max-height: 25rem;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+
+#popup-exit {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+}
+
+#popup-header {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    align-items: start;
+}
+
+#popup-header-text {
+    flex: 1;
+    padding-left: 0.5rem;
+}
+
+#popup-contents {
+    display: flex;
+    flex-direction: column;
+    padding: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
+#popup-date-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+/* MAYBE BREAK UP CSS INTO SPECIFIC POPUP TEMPLATES */
+
+#proceed-btn {
+    margin-top: 1rem;
+}

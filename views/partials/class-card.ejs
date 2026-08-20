@@ -27,6 +27,23 @@
     <div class="class-card-text spacer">
         <span class="class-card-text1 elipsis-text"><%= classItem.title %></span>
         <span class="class-card-text2 elipsis-text"><%= classItem.code %></span>
+        <% const _dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+           const _start = classItem.startDate instanceof Date ? classItem.startDate : new Date(classItem.startDate);
+           const _end = classItem.endDate instanceof Date ? classItem.endDate : new Date(classItem.endDate);
+           const _startOk = !Number.isNaN(_start.getTime());
+           const _endOk = !Number.isNaN(_end.getTime());
+           let _dateText = '';
+           if (_startOk && _endOk) {
+               _dateText = _dateFmt.format(_start) + ' – ' + _dateFmt.format(_end);
+           } else if (_startOk) {
+               _dateText = _dateFmt.format(_start);
+           } else if (_endOk) {
+               _dateText = _dateFmt.format(_end);
+           }
+        %>
+        <% if (_dateText) { %>
+        <span class="class-card-dates"><%= _dateText %></span>
+        <% } %>
     </div>
     <ul id="deliverables-div">
         <% const taskGroups = Array.isArray(classItem.taskGroups) ? classItem.taskGroups : []; %>
@@ -45,13 +62,13 @@
         <% }) %>
         <% if (deliverables.length > 3) { %>
             <li>
-                <div class="super-subtle-text" style="display: flex; justify-content: center;">
+                <div id="deliverableOverflow" class="super-subtle-text">
                     <span>... +<%= (deliverables.length - 3) %> More </span>
                 </div>
             </li>
         <% } %>
     </ul>
-    <button id="options-btn" class="circle selectable-btn center-content">
+    <button type="button" class="options-btn circle clickable-btn center-content">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
           </svg>          

@@ -199,9 +199,4 @@ eyeButton.addEventListener("click", () => {
 
 input.addEventListener("keydown", () => {
     passErrText.innerHTML = null;
-    removeInErrs(input);
 })
-
-function removeInErrs(elem) {
-    elem.classList.remove("inputErr");
-}

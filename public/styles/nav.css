@@ -17,13 +17,10 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    border-top: solid 1px #dddddd;
-    border-bottom: solid 1px #dddddd;
-    border-left: solid 2px #dddddd;
-    border-right: solid 2px #dddddd;
     padding: 1rem;
     gap: 0.5rem;
     flex-direction: column;
+    background-color: var(--gradestar-purple1-color);
 }
 
 .scaleable {
@@ -41,5 +38,6 @@
 }
 
 #nav #logo {
-    width: 90%;
+    width: 100%;
+    padding: 0.5rem 0rem ;
 }
