@@ -42,6 +42,20 @@ async function isPasswordCorrect(password, hashedPassword) {
   return bcrypt.compare(password, hashedPassword);
 }
 
+async function login(email, password) {
+  const user = await findUserByEmail(email);
+  if (!user) {
+    return { ok: false };
+  }
+
+  const passwordMatches = await isPasswordCorrect(password, user.password);
+  if (!passwordMatches) {
+    return { ok: false };
+  }
+
+  return { ok: true, user };
+}
+
 async function signup(email, password) {
   const user = await findUserByEmail(email);
   const emailIsValid = isValidEmail(email);
@@ -66,7 +80,11 @@ async function signup(email, password) {
 
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  const userdata = await User.insertMany({ email, password: hashedPassword });
+  const userdata = await User.insertMany({
+    email,
+    password: hashedPassword,
+    startDateSeparation: false
+  });
   console.log(userdata);
 
   return { ok: true };
@@ -81,5 +99,6 @@ module.exports = {
   isPasswordValid,
   findUserByEmail,
   isPasswordCorrect,
+  login,
   signup
 };

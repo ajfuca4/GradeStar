@@ -26,33 +26,21 @@ router.post("/login", async (req, res) => {
     password: req.body.password
   }
 
-  try {    
-    // If user does not exist show an error.
-    const userExists = await authService.findUserByEmail(inputData.email);
-    if (!userExists) {
-      res.render("auth/login.ejs", { 
-        title: "Login",
-        emailVal: inputData.email,
-        passwordVal: inputData.password,
-        emailErrMsg: "Incorrect login information.",
-        passwordErrMsg: "Incorrect login information." 
-      });
+  try {
+    const result = await authService.login(inputData.email, inputData.password);
+    if (result.ok) {
+      req.session.userId = result.user._id.toString();
+      res.redirect("/courses");
       return;
     }
-    
-    // Check if the password inputted matches the email 
-    const isPasswordCorrect = await authService.isPasswordCorrect(inputData.password, userExists.password);
-    if (isPasswordCorrect) {
-      res.redirect("/courses");
-    } else {
-      res.render("auth/login.ejs", { 
-        title: "Login",
-        emailVal: inputData.email,
-        passwordVal: inputData.password,
-        emailErrMsg: "Incorrect login information.",
-        passwordErrMsg: "Incorrect login information." 
-      });
-    }
+
+    res.render("auth/login.ejs", {
+      title: "Login",
+      emailVal: inputData.email,
+      passwordVal: inputData.password,
+      emailErrMsg: "Incorrect login information.",
+      passwordErrMsg: "Incorrect login information."
+    });
   } catch (error) {
     console.error("Login error:", error);
     res.render("auth/login.ejs", { 

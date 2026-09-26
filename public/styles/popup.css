@@ -58,3 +58,21 @@
 #proceed-btn {
     margin-top: 1rem;
 }
+
+.deliverable-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.deliverable-entry-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.deliverable-chip {
+    background-color: #f0f0f0;
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+}

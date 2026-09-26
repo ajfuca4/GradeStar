@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
     courses: [courseSchema],
     startDateSeparation: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }
 }, {
     timestamps: true  // Adds createdAt and updatedAt
