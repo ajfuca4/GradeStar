@@ -8,6 +8,6 @@
     "nodemon": "^3.1.10"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "nodemon src/app.js"
   }
 }

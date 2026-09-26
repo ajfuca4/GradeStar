@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-// GET /classes - Show classes page
+// GET /courses - Show courses page
 router.get('/', (req, res) => {
-  const title = "Classes"
+  const title = "Courses"
 
-  const theclass = {
+  const thecourse = {
     title: "Linear Algebra 2 for Honours Mathematics",
     code: "MATH235",
     colour: "orange",
@@ -150,24 +150,24 @@ router.get('/', (req, res) => {
     }]
   }
 
-  const classArr = []
+  const courseArr = []
 
   for (let i = 100; i >= 0; i--) {
     const startDate = new Date(2026, 4, i * 10);
     const endDate = new Date(2026, 4, (i * 10) + 10)
     endDate.setMonth(endDate.getMonth() + 3);
-    classArr.push({
-      ...theclass,
+    courseArr.push({
+      ...thecourse,
       grade: i,
       startDate,
       endDate,
     });
   }
 
-  res.render("classes.ejs", { 
+  res.render("courses/courses.ejs", { 
     title: title, 
     email: "Test", 
-    classes: classArr,
+    courses: courseArr,
   });
 });
 

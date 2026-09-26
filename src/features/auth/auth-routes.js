@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/user');
-const bcrypt = require('bcrypt');
-const passwordPolicy = require('../utils/password-policy.js');
-const emailValidation = require('../utils/email-validation.js');
+const authService = require('./auth-service.js');
 
 // GET / - Redirect to login
 router.get('/', (req, res) => {
@@ -12,7 +9,7 @@ router.get('/', (req, res) => {
 
 // GET /login - Show login page
 router.get('/login', (req, res) => {
-  res.render("login.ejs", { 
+  res.render("auth/login.ejs", { 
     title: "Login",
     emailVal: null,
     passwordVal: null,
@@ -29,13 +26,11 @@ router.post("/login", async (req, res) => {
     password: req.body.password
   }
 
-  try {
-    // Check if users email exists in database
-    const userExists = await User.findOne({ email: inputData.email })
-    
+  try {    
     // If user does not exist show an error.
+    const userExists = await authService.findUserByEmail(inputData.email);
     if (!userExists) {
-      res.render("login", { 
+      res.render("auth/login.ejs", { 
         title: "Login",
         emailVal: inputData.email,
         passwordVal: inputData.password,
@@ -46,11 +41,11 @@ router.post("/login", async (req, res) => {
     }
     
     // Check if the password inputted matches the email 
-    const isPasswordCorrect = await bcrypt.compare(inputData.password, userExists.password);
+    const isPasswordCorrect = await authService.isPasswordCorrect(inputData.password, userExists.password);
     if (isPasswordCorrect) {
-      res.redirect("/classes");
+      res.redirect("/courses");
     } else {
-      res.render("login", { 
+      res.render("auth/login.ejs", { 
         title: "Login",
         emailVal: inputData.email,
         passwordVal: inputData.password,
@@ -60,7 +55,7 @@ router.post("/login", async (req, res) => {
     }
   } catch (error) {
     console.error("Login error:", error);
-    res.render("login", { 
+    res.render("auth/login.ejs", { 
       title: "Login",
       emailVal: inputData.email,
       passwordVal: inputData.password,
@@ -72,7 +67,7 @@ router.post("/login", async (req, res) => {
 
 // GET /signup - Show signup page
 router.get('/signup', (req, res) => {
-  res.render("signup.ejs", { 
+  res.render("auth/signup.ejs", { 
     title: "Signup",
     emailVal: '',
     passwordVal: '',
@@ -94,47 +89,24 @@ router.post("/signup", async (req, res) => {
     password: req.body.password
   }
 
-  // Set the default values of all the variables in the ejs page
-  const renderVals = {
+  const result = await authService.signup(inputData.email, inputData.password);
+  if (result.ok) {
+    res.redirect('/login');
+    return;
+  }
+
+  res.render("auth/signup.ejs", {
     title: "Signup",
     emailVal: inputData.email,
     passwordVal: inputData.password,
-    emailErrMsg: null,
-    passwordErrMsg: null,
+    emailErrMsg: result.emailErrMsg,
+    passwordErrMsg: result.passwordErrMsg,
     initialLoad: false,
-    validLength: passwordPolicy.passwordLengthReq(inputData.password),
-    containsUpper: passwordPolicy.passwordUpperReq(inputData.password),
-    containsLower: passwordPolicy.passwordLowerReq(inputData.password),
-    containsNumSpec: passwordPolicy.passwordSpecialReq(inputData.password)
-  }
-
-  // Check if user already exists
-  const userExists = await User.findOne({email: inputData.email});
-  if (userExists || !passwordPolicy.isPasswordValid(inputData.password) || !emailValidation.isValidEmail(inputData.email)) {
-    if (!emailValidation.isValidEmail(inputData.email)) {
-      renderVals.emailErrMsg = "This is not a valid email."
-    } 
-    else if (userExists) {
-      renderVals.emailErrMsg = "An account already exists with this email."
-    }
-
-    if (!passwordPolicy.isPasswordValid(inputData.password)) {
-      renderVals.passwordErrMsg = "Password does not meet all the requirements.";
-    }
-    res.render("signup.ejs", renderVals);
-  }
-  // Otherwise, create new user
-  else {
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(inputData.password, saltRounds);
-    inputData.password = hashedPassword;
-
-    const userdata = await User.insertMany(inputData);
-    console.log(userdata);
-    // Redirect to login after successful signup
-    res.redirect('/login');
-  }
+    validLength: result.validLength,
+    containsUpper: result.containsUpper,
+    containsLower: result.containsLower,
+    containsNumSpec: result.containsNumSpec
+  });
 });
 
 module.exports = router;

@@ -1,28 +1,28 @@
 <link rel="stylesheet" href="styles/general.css">
-<link rel="stylesheet" href="styles/classes.css">
+<link rel="stylesheet" href="styles/courses.css">
 
-<%- include("./partials/head.ejs") %>
-<%- include("./partials/nav.ejs") %>
-<%- include("./partials/popup.ejs") %>
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/nav.ejs") %>
+<%- include("../partials/popup.ejs") %>
 
 <header id="page-header">
     <h1>
         My <%= title %>
     </h1>
-    <button type="button" id="add-class-btn" class="emphasis-btn" onclick="openPopUp('add-class-tmpl')">
+    <button type="button" id="add-course-btn" class="emphasis-btn" onclick="openPopUp('add-course-tmpl')">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus icon-sm" data-fg-ci38="3.7:3.3170:/src/app/components/Dashboard.tsx:38:11:1150:28:e:Plus::::::ISW">
             <path d="M5 12h14"></path><path d="M12 5v14"></path>
         </svg>
-        <span>Add Class</span>
+        <span>Add Course</span>
     </button>
 </header>
 <ul class="content-list">
-    <% classes.forEach(function(c) { %>
-        <%- include("./partials/class-card.ejs", { classItem: c }) %>
+    <% courses.forEach(function(c) { %>
+        <%- include("../partials/course-card.ejs", { courseItem: c }) %>
     <% }) %>
 </ul>
 
-<template id="add-class-tmpl">
-    <%- include("./partials/PopupViews/add-class-popup.ejs") %>
+<template id="add-course-tmpl">
+    <%- include("../partials/popup-views/add-course-popup.ejs") %>
 </template>
 

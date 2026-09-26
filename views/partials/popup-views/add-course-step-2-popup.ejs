@@ -1,0 +1,33 @@
+<div id="popup-deliverable-inputs">
+    <div id="reoccurring-deliverables" class="input-group">
+        <span class="subtle-text"> Reoccurring Deliverables </span>
+        <div class="deliverable-chip-list" aria-live="polite"></div>
+        <div class="deliverable-entry-row">
+            <input class="deliverable-entry-input" type="text" placeholder="e.g. 'Assignments'">
+            <button type="button" class="emphasis-btn add-deliverable-btn" onclick="addDeliverableInput('reoccurring-deliverables')">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add</span>
+            </button>
+        </div>
+    </div>
+    <div id="non-recurring-deliverables" class="input-group">
+        <span class="subtle-text"> Non-Recurring Deliverables </span>
+        <div class="deliverable-chip-list" aria-live="polite"></div>
+        <div class="deliverable-entry-row">
+            <input class="deliverable-entry-input" type="text" placeholder="e.g. 'Midterm Exam'">
+            <button type="button" class="emphasis-btn add-deliverable-btn" onclick="addDeliverableInput('non-recurring-deliverables')">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div id="popup-nav-btns">
+    <button type="button" id="back-btn" class="clickable-btn" onclick="openPopUp('add-course-tmpl')">
+        Back
+    </button>
+    <button type="button" id="proceed-btn" class="emphasis-btn">
+        Proceed
+    </button>
+</div>
+<script src="/scripts/add-course-scripts.js"></script>

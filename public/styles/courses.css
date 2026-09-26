@@ -16,13 +16,13 @@
     overflow: scroll;
 }
 
-#add-class-btn {
+#add-course-btn {
     max-width: 10rem;
     width: 100%;
     max-height: 80% 
 }
 
-#add-class-btn:hover {
+#add-course-btn:hover {
     background-color: var(--gradestar-purple2-color);
     cursor: pointer;
 }
