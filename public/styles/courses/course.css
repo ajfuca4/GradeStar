@@ -1,3 +1,26 @@
+.course-header-main {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0.25rem;
+    border-radius: 0.6rem;
+    color: var(--text-grey-color);
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background-color: var(--hover-grey-color);
+}
+
 .course-header-text {
     display: flex;
     flex-direction: column;
@@ -17,8 +40,8 @@
 }
 
 .pct-wheel-header {
-    width: 8.25rem;
-    height: 8.25rem;
+    width: 6.5rem;
+    height: 6.5rem;
     flex-shrink: 0;
 }
 

@@ -1,9 +1,16 @@
 <header id="page-header">
-    <div class="course-header-text">
-        <% if (course.code) { %>
-            <span class="course-header-code elipsis-text"><%= course.code %></span>
-        <% } %>
-        <h1 class="elipsis-text"><%= course.title %></h1>
+    <div class="course-header-main">
+        <a class="back-btn" href="/courses" aria-label="Back to courses">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 18-6-6 6-6"></path>
+            </svg>
+        </a>
+        <div class="course-header-text">
+            <h1 class="elipsis-text"><%= course.title %></h1>
+            <% if (course.code) { %>
+                <span class="course-header-code elipsis-text"><%= course.code %></span>
+            <% } %>
+        </div>
     </div>
     <%- include("../partials/grade-wheel.ejs", { grade: course.grade, ariaLabel: "Course grade", wheelClass: "pct-wheel-header" }) %>
 </header>
