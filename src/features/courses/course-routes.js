@@ -16,7 +16,7 @@ const coursesLayout = {
   scripts: [
     '/scripts/shared/general.js',
     '/scripts/shared/nav.js',
-    '/scripts/courses/add-course.js',
+    '/scripts/courses/popup.js',
   ],
 };
 

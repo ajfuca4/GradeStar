@@ -2,7 +2,7 @@
 
 <header id="page-header">
     <h1>
-        My <%= title %>
+        <%= title %>
     </h1>
     <button type="button" id="add-course-btn" class="emphasis-btn" data-popup-open="add-course-tmpl">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus icon-sm" data-fg-ci38="3.7:3.3170:/src/app/components/Dashboard.tsx:38:11:1150:28:e:Plus::::::ISW">
@@ -32,7 +32,4 @@
 
 <template id="add-course-tmpl">
     <%- include("../partials/popup-views/add-course-popup.ejs") %>
-</template>
-<template id="add-course-step-2-tmpl">
-    <%- include("../partials/popup-views/add-course-step-2-popup.ejs") %>
 </template>

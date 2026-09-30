@@ -3,22 +3,26 @@ const router = express.Router();
 const authService = require('./auth-service.js');
 
 const loginLayout = {
-  title: 'Login',
+  title: 'Log in',
   showNav: false,
   contentPartial: '../auth/login.ejs',
-  styles: [],
-  scripts: ['/scripts/shared/general.js'],
+  styles: ['/styles/auth/auth.css'],
+  scripts: [
+    '/scripts/shared/general.js',
+    '/scripts/auth/password-toggle.js',
+  ],
 };
 
 const signupLayout = {
-  title: 'Signup',
+  title: 'Sign up',
   showNav: false,
   contentPartial: '../auth/signup.ejs',
-  styles: [],
+  styles: ['/styles/auth/auth.css'],
   scripts: [
     '/scripts/shared/general.js',
     '/scripts/auth/email.js',
     '/scripts/auth/password.js',
+    '/scripts/auth/password-toggle.js',
   ],
 };
 

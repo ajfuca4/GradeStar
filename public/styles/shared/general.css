@@ -323,8 +323,7 @@ ul {
     background-color: rgb(255, 185, 185);
 }
 
-input[type="text"],
-input[type="date"] {
+input[type="text"] {
     padding: 0rem 0.75rem;
     height: 2rem;
     border: solid 1px var(--text-grey-color);
@@ -342,11 +341,6 @@ input[type="text"]::placeholder {
 }
 
 input[type="text"]:focus {
-    border-color: var(--gradestar-purple2-color);
-    box-shadow: 0px 0px 2px var(--gradestar-purple2-color);
-}
-
-input[type="date"]:focus-within {
     border-color: var(--gradestar-purple2-color);
     box-shadow: 0px 0px 2px var(--gradestar-purple2-color);
 }

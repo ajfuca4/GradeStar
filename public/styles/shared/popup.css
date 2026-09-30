@@ -47,32 +47,8 @@
     padding: 0rem 1.5rem 1.5rem 1.5rem;
 }
 
-#popup-date-inputs {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-}
-
 /* MAYBE BREAK UP CSS INTO SPECIFIC POPUP TEMPLATES */
 
 #proceed-btn {
     margin-top: 1rem;
-}
-
-.deliverable-chip-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.deliverable-entry-row {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.deliverable-chip {
-    background-color: #f0f0f0;
-    border-radius: 999px;
-    padding: 0.25rem 0.75rem;
 }
