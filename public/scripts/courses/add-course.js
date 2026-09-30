@@ -1,3 +1,6 @@
+import { openPopUp } from './popup.js';
+import { requireDateInput, validateDateInput } from './date-input.js';
+
 function validateTextInput() {
     const textInputs = document.querySelectorAll("input[type='text']");
     for (const input of textInputs) {
@@ -35,3 +38,15 @@ function addDeliverableInput(containerId) {
     input.value = '';
     input.classList.remove('inputErr');
 }
+
+document.addEventListener('click', (event) => {
+    const deliverableTrigger = event.target.closest('[data-add-deliverable]');
+    if (deliverableTrigger) {
+        addDeliverableInput(deliverableTrigger.getAttribute('data-add-deliverable'));
+        return;
+    }
+
+    if (event.target.closest('[data-proceed-course]')) {
+        proceedAddCourse();
+    }
+});

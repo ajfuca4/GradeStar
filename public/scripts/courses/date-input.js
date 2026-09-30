@@ -1,4 +1,4 @@
-function validateDateInput() {
+export function validateDateInput() {
     const dateInputs = document.querySelectorAll("#popup-date-inputs input[type='date']");
     const startDate = dateInputs[0];
     const endDate = dateInputs[1];
@@ -7,7 +7,7 @@ function validateDateInput() {
     }
 }
 
-function requireDateInput() {
+export function requireDateInput() {
     const dateInputs = document.querySelectorAll("#popup-date-inputs input[type='date']");
     for (const input of dateInputs) {
         if (!input.value) {

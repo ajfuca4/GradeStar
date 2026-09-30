@@ -4,7 +4,7 @@
         <div class="deliverable-chip-list" aria-live="polite"></div>
         <div class="deliverable-entry-row">
             <input class="deliverable-entry-input" type="text" placeholder="e.g. 'Assignments'">
-            <button type="button" class="emphasis-btn add-deliverable-btn" onclick="addDeliverableInput('reoccurring-deliverables')">
+            <button type="button" class="emphasis-btn add-deliverable-btn" data-add-deliverable="reoccurring-deliverables">
                 <i class="fa-solid fa-plus"></i>
                 <span>Add</span>
             </button>
@@ -15,7 +15,7 @@
         <div class="deliverable-chip-list" aria-live="polite"></div>
         <div class="deliverable-entry-row">
             <input class="deliverable-entry-input" type="text" placeholder="e.g. 'Midterm Exam'">
-            <button type="button" class="emphasis-btn add-deliverable-btn" onclick="addDeliverableInput('non-recurring-deliverables')">
+            <button type="button" class="emphasis-btn add-deliverable-btn" data-add-deliverable="non-recurring-deliverables">
                 <i class="fa-solid fa-plus"></i>
                 <span>Add</span>
             </button>
@@ -23,7 +23,7 @@
     </div>
 </div>
 <div id="popup-nav-btns">
-    <button type="button" id="back-btn" class="clickable-btn" onclick="openPopUp('add-course-tmpl')">
+    <button type="button" id="back-btn" class="clickable-btn" data-popup-open="add-course-tmpl">
         Back
     </button>
     <button type="button" id="proceed-btn" class="emphasis-btn">

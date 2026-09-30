@@ -1,15 +1,10 @@
-<link rel="stylesheet" href="styles/general.css">
-<link rel="stylesheet" href="styles/courses.css">
-
-<%- include("../partials/head.ejs") %>
-<%- include("../partials/nav.ejs") %>
 <%- include("../partials/popup.ejs") %>
 
 <header id="page-header">
     <h1>
         My <%= title %>
     </h1>
-    <button type="button" id="add-course-btn" class="emphasis-btn" onclick="openPopUp('add-course-tmpl')">
+    <button type="button" id="add-course-btn" class="emphasis-btn" data-popup-open="add-course-tmpl">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus icon-sm" data-fg-ci38="3.7:3.3170:/src/app/components/Dashboard.tsx:38:11:1150:28:e:Plus::::::ISW">
             <path d="M5 12h14"></path><path d="M12 5v14"></path>
         </svg>
@@ -19,7 +14,7 @@
 <ul class="content-list">
     <% if (courses.length === 0) { %>
         <li>
-            <button type="button" class="add-course-card" onclick="openPopUp('add-course-tmpl')">
+            <button type="button" class="add-course-card" data-popup-open="add-course-tmpl">
                 <span class="add-course-card-icon circle center-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M5 12h14"></path><path d="M12 5v14"></path>
@@ -41,4 +36,3 @@
 <template id="add-course-step-2-tmpl">
     <%- include("../partials/popup-views/add-course-step-2-popup.ejs") %>
 </template>
-

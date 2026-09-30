@@ -1,4 +1,4 @@
-function openPopUp(templateId) {
+export function openPopUp(templateId) {
     const popup = document.getElementById('overlay');
     const popupContent = document.getElementById('popup-contents');
     const tpl = document.getElementById(templateId);
@@ -10,9 +10,20 @@ function openPopUp(templateId) {
     popup.style.visibility = 'visible';
 }
 
-function closePopUp() {
+export function closePopUp() {
     // CLEAR ALL FILLED OUT FIELDS? MAYBE? MIGHT BE BETTER FOR UX IF NOT CLEARED IDK
     const popup = document.getElementById('overlay');
     popup.style.visibility = 'hidden';
 }
 
+document.addEventListener('click', (event) => {
+    const openTrigger = event.target.closest('[data-popup-open]');
+    if (openTrigger) {
+        openPopUp(openTrigger.getAttribute('data-popup-open'));
+        return;
+    }
+
+    if (event.target.closest('[data-popup-close]')) {
+        closePopUp();
+    }
+});
