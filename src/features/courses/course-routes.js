@@ -86,6 +86,7 @@ router.get('/:courseId', async (req, res, next) => {
       ],
       course,
       tasks: courseService.listCourseTasks(course),
+      calendar: courseService.buildCourseCalendar(course),
     });
   } catch (error) {
     next(error);

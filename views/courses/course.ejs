@@ -12,15 +12,27 @@
             <% } %>
         </div>
     </div>
-    <%- include("../partials/grade-wheel.ejs", { grade: course.grade, ariaLabel: "Course grade", wheelClass: "pct-wheel-header" }) %>
+    <div class="grade-wheel-card">
+        <%- include("../partials/grade-wheel.ejs", { grade: course.grade, ariaLabel: "Course grade", wheelClass: "pct-wheel-header" }) %>
+        <div class="grade-scheme">
+            <h2>Grading Schemes</h2>
+            <% const schemeGroups = course.taskGroups || []; %>
+            <% if (schemeGroups.length === 0) { %>
+                <p class="subtle-text">Grading schemes for this course will appear here.</p>
+            <% } else { %>
+                <ul class="grade-scheme-list">
+                    <% schemeGroups.forEach(function (group) { %>
+                        <li>
+                            <span class="elipsis-text"><%= group.title %></span>
+                            <span><%= group.weight %>%</span>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
+    </div>
 </header>
 <div class="course-layout">
-    <div class="course-summary">
-        <section class="scheme-card">
-            <h2>Grading Schemes</h2>
-            <p class="subtle-text">Grading schemes for this course will appear here.</p>
-        </section>
-    </div>
     <section class="task-panel" aria-label="Course tasks">
         <h2>Tasks</h2>
         <ul class="task-chart">
@@ -32,5 +44,21 @@
                 <% }) %>
             <% } %>
         </ul>
+    </section>
+    <section class="calendar-card" aria-label="Course calendar">
+        <h2>Calendar</h2>
+        <p class="calendar-month"><%= calendar.label %></p>
+        <div class="calendar-grid">
+            <% calendar.weekdays.forEach(function (weekday) { %>
+                <span class="calendar-weekday"><%= weekday %></span>
+            <% }) %>
+            <% calendar.cells.forEach(function (cell) { %>
+                <% if (!cell) { %>
+                    <span class="calendar-day calendar-day-empty"></span>
+                <% } else { %>
+                    <span class="calendar-day<%= cell.isToday ? ' calendar-day-today' : '' %><%= cell.hasDue ? ' calendar-day-due' : '' %>"><%= cell.day %></span>
+                <% } %>
+            <% }) %>
+        </div>
     </section>
 </div>

@@ -63,9 +63,56 @@ function listCourseTasks(course) {
     });
 }
 
+const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+function collectDueDates(course) {
+  const groupedTasks = (course.taskGroups || []).flatMap((group) => group.tasks || []);
+  const tasks = [...groupedTasks, ...(course.uniqueTasks || [])];
+
+  return tasks
+    .map((task) => task.dueDate)
+    .filter(Boolean)
+    .map((value) => new Date(value))
+    .filter((date) => !Number.isNaN(date.getTime()));
+}
+
+function buildCourseCalendar(course, now = new Date()) {
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const dueDays = new Set(
+    collectDueDates(course)
+      .filter((date) => date.getFullYear() === year && date.getMonth() === month)
+      .map((date) => date.getDate())
+  );
+
+  const cells = [];
+  for (let index = 0; index < firstWeekday; index += 1) {
+    cells.push(null);
+  }
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    cells.push({
+      day,
+      isToday: day === now.getDate(),
+      hasDue: dueDays.has(day),
+    });
+  }
+
+  return {
+    label: new Date(year, month, 1).toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
+    }),
+    weekdays: WEEKDAYS,
+    cells,
+  };
+}
+
 module.exports = {
   getCoursesForUser,
   getCourseForUser,
   createCourse,
   listCourseTasks,
+  buildCourseCalendar,
 };
