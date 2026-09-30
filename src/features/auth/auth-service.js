@@ -1,38 +1,10 @@
-const User = require('../../models/user-model.js');
+const { User } = require('../../models');
 const bcrypt = require('bcrypt');
-
-function isValidEmail(email) {
-  return /\S+@\S+\.\S+/.test(email);
-}
-
-function passwordLengthReq(password) {
-  return (password.length >= 6) && (password.length <= 30);
-}
-
-function passwordUpperReq(password) {
-  return /[A-Z]/.test(password);
-}
-
-function passwordLowerReq(password) {
-  return /[a-z]/.test(password);
-}
-
-function passwordSpecialReq(password) {
-  return /[0-9/[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(password);
-}
-
-function isPasswordValid(password) {
-  return passwordLengthReq(password) && passwordUpperReq(password) && passwordLowerReq(password) && passwordSpecialReq(password);
-}
-
-function passwordRequirementFlags(password) {
-  return {
-    validLength: passwordLengthReq(password),
-    containsUpper: passwordUpperReq(password),
-    containsLower: passwordLowerReq(password),
-    containsNumSpec: passwordSpecialReq(password)
-  };
-}
+const {
+  isValidEmail,
+  isPasswordValid,
+  passwordRequirementFlags
+} = require('./auth-validation');
 
 async function findUserByEmail(email) {
   return User.findOne({ email });
@@ -91,14 +63,6 @@ async function signup(email, password) {
 }
 
 module.exports = {
-  isValidEmail,
-  passwordLengthReq,
-  passwordUpperReq,
-  passwordLowerReq,
-  passwordSpecialReq,
-  isPasswordValid,
-  findUserByEmail,
-  isPasswordCorrect,
   login,
   signup
 };

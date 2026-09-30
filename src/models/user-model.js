@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const courseSchema = require('./course-model');
+const courseSchema = require('./course-schema');
 
 // User Schema 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -24,4 +24,4 @@ const UserSchema = new mongoose.Schema({
     timestamps: true  // Adds createdAt and updatedAt
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', userSchema);

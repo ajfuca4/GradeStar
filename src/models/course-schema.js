@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const taskGroupSchema = require('./task-group-model');
-const taskSchema = require('./task-model');
+const taskGroupSchema = require('./task-group-schema');
+const taskSchema = require('./task-schema');
 
 // Course Schema (subdocument)
 const courseSchema = new mongoose.Schema({

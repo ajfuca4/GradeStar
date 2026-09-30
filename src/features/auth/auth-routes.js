@@ -19,7 +19,7 @@ router.get('/login', (req, res) => {
 });
 
 // POST /login - Handle login submission
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   // Get user data
   const inputData = {
     email: req.body.email,
@@ -42,14 +42,7 @@ router.post("/login", async (req, res) => {
       passwordErrMsg: "Incorrect login information."
     });
   } catch (error) {
-    console.error("Login error:", error);
-    res.render("auth/login.ejs", { 
-      title: "Login",
-      emailVal: inputData.email,
-      passwordVal: inputData.password,
-      emailErrMsg: "An error occurred. Please try again.",
-      passwordErrMsg: null 
-    });
+    next(error);
   }
 });
 
@@ -70,31 +63,35 @@ router.get('/signup', (req, res) => {
 });
 
 // POST /signup - Handle signup submission
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res, next) => {
   // Get user data
   const inputData = {
     email: req.body.email,
     password: req.body.password
   }
 
-  const result = await authService.signup(inputData.email, inputData.password);
-  if (result.ok) {
-    res.redirect('/login');
-    return;
-  }
+  try {
+    const result = await authService.signup(inputData.email, inputData.password);
+    if (result.ok) {
+      res.redirect('/login');
+      return;
+    }
 
-  res.render("auth/signup.ejs", {
-    title: "Signup",
-    emailVal: inputData.email,
-    passwordVal: inputData.password,
-    emailErrMsg: result.emailErrMsg,
-    passwordErrMsg: result.passwordErrMsg,
-    initialLoad: false,
-    validLength: result.validLength,
-    containsUpper: result.containsUpper,
-    containsLower: result.containsLower,
-    containsNumSpec: result.containsNumSpec
-  });
+    res.render("auth/signup.ejs", {
+      title: "Signup",
+      emailVal: inputData.email,
+      passwordVal: inputData.password,
+      emailErrMsg: result.emailErrMsg,
+      passwordErrMsg: result.passwordErrMsg,
+      initialLoad: false,
+      validLength: result.validLength,
+      containsUpper: result.containsUpper,
+      containsLower: result.containsLower,
+      containsNumSpec: result.containsNumSpec
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
