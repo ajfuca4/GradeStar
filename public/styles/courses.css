@@ -16,6 +16,45 @@
     overflow: scroll;
 }
 
+.content-list > li {
+    list-style: none;
+}
+
+.add-course-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 7rem;
+    padding: 1rem;
+    border: dashed 2px var(--border-grey-color);
+    border-radius: 1rem;
+    background-color: var(--background-grey-color);
+    color: var(--text-grey-color);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.add-course-card:hover {
+    box-shadow: 0 0 0.5rem 0rem rgba(0,0,0,0.25);
+    color: var(--gradestar-purple1-color);
+}
+
+.add-course-card-icon {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border: dashed 2px currentColor;
+}
+
+.add-course-card-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
 #add-course-btn {
     max-width: 10rem;
     width: 100%;
