@@ -5,7 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const connectDB = require('./config/database');
 const authRoutes = require('./features/auth/auth-routes');
-const coursesRoutes = require('./features/courses/course-routes');
+const courseRoutes = require('./features/courses/course-routes');
 const requireAuth = require('./middleware/require-auth');
 const notFound = require('./middleware/not-found');
 const errorHandler = require('./middleware/error-handler');
@@ -26,8 +26,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Routes
 app.use('/', authRoutes);
-app.use('/courses', requireAuth, coursesRoutes);
-
+app.use('/courses', requireAuth, courseRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

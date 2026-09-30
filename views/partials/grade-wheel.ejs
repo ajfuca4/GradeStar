@@ -1,0 +1,24 @@
+<% const _gradeNum = Number(grade); const wheelPct = Math.min(100, Math.max(0, Number.isFinite(_gradeNum) ? _gradeNum : 0));
+   let _pctWheelDash;
+   if (wheelPct >= 100) _pctWheelDash = 100;
+   else if (wheelPct <= 0) _pctWheelDash = 0;
+   else if (wheelPct >= 98) _pctWheelDash = wheelPct - 3;
+   else if (wheelPct >= 94) _pctWheelDash = wheelPct - 2;
+   else if (wheelPct > 90) _pctWheelDash = wheelPct - 1;
+   else _pctWheelDash = wheelPct;
+   const wheelClasses = ['pct-wheel', 'square', 'center-content'];
+   if (typeof wheelClass !== 'undefined' && wheelClass) wheelClasses.push(wheelClass);
+%>
+<div class="<%= wheelClasses.join(' ') %>" role="img" aria-label="<%= ariaLabel %> <%= Math.round(wheelPct) %> percent">
+    <svg class="pct-wheel-svg" viewBox="0 0 36 36" aria-hidden="true">
+        <!-- Circumference tuned to 100 so stroke-dasharray matches grade 0–100 -->
+        <path class="pct-wheel-track" fill="none" stroke-width="3"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        <% if (wheelPct > 0) { %>
+        <path class="pct-wheel-fill" fill="none" stroke-width="3"
+            stroke-dasharray="<%= _pctWheelDash %>, 100"
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        <% } %>
+    </svg>
+    <span class="pct-wheel-value"><%= Math.round(wheelPct) %><span class="pct-wheel-suffix">%</span></span>
+</div>

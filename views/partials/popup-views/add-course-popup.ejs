@@ -1,11 +1,12 @@
 <div class="input-group">
     <span class="subtle-text"> Course Code </span>
-    <input id="course-code-input" type="text" placeholder="e.g. 'ABC123'">
+    <input id="course-code-input" type="text" placeholder="e.g. 'ABC123'" autocomplete="off">
 </div>
 <div class="input-group">
     <span class="subtle-text"> Course Title </span>
-    <input type="text" placeholder="e.g. 'Introduction to Business">
+    <input id="course-title-input" type="text" placeholder="e.g. 'Introduction to Business'" autocomplete="off">
 </div>
-<button type="button" id="proceed-btn" class="emphasis-btn">
-    Proceed
+<p id="create-course-error" class="err-text"></p>
+<button type="button" id="create-course-btn" class="emphasis-btn">
+    Create Course
 </button>

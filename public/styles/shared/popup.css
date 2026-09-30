@@ -49,6 +49,15 @@
 
 /* MAYBE BREAK UP CSS INTO SPECIFIC POPUP TEMPLATES */
 
-#proceed-btn {
+#create-course-btn {
     margin-top: 1rem;
+}
+
+#create-course-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+#create-course-error {
+    min-height: 1rem;
 }

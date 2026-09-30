@@ -1,0 +1,29 @@
+<header id="page-header">
+    <div class="course-header-text">
+        <% if (course.code) { %>
+            <span class="course-header-code elipsis-text"><%= course.code %></span>
+        <% } %>
+        <h1 class="elipsis-text"><%= course.title %></h1>
+    </div>
+    <%- include("../partials/grade-wheel.ejs", { grade: course.grade, ariaLabel: "Course grade", wheelClass: "pct-wheel-header" }) %>
+</header>
+<div class="course-layout">
+    <div class="course-summary">
+        <section class="scheme-card">
+            <h2>Grading Schemes</h2>
+            <p class="subtle-text">Grading schemes for this course will appear here.</p>
+        </section>
+    </div>
+    <section class="task-panel" aria-label="Course tasks">
+        <h2>Tasks</h2>
+        <ul class="task-chart">
+            <% if (tasks.length === 0) { %>
+                <li class="subtle-text">No tasks for this course yet.</li>
+            <% } else { %>
+                <% tasks.forEach(function (task) { %>
+                    <%- include("../partials/deliverables.ejs", { item: task }) %>
+                <% }) %>
+            <% } %>
+        </ul>
+    </section>
+</div>
