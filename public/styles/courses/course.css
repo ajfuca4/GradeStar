@@ -1,3 +1,7 @@
+body {
+    --course-rail-width: 21rem;
+}
+
 .course-header-main {
     display: flex;
     align-items: center;
@@ -42,12 +46,13 @@
 .grade-wheel-card {
     display: flex;
     align-items: center;
-    flex-shrink: 1;
+    flex-shrink: 0;
+    width: min(var(--course-rail-width), 40%);
     min-width: 0;
     gap: 0.85rem;
     background-color: white;
     border-radius: 999px 200px 200px 999px;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
     padding: 0.85rem 1.15rem 0.85rem 0.85rem;
 }
 
@@ -56,7 +61,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.35rem;
-    width: 11rem;
+    flex: 1;
     min-width: 0;
     max-height: 6.5rem;
     overflow: auto;
@@ -64,6 +69,14 @@
 
 .grade-scheme h2 {
     font-size: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grade-wheel-card .options-btn {
+    flex-shrink: 0;
+    color: var(--gradestar-purple1-color);
 }
 
 .grade-scheme-list {
@@ -111,7 +124,7 @@
     background-color: white;
     border: none;
     border-radius: 20px;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
     padding: 1.25rem;
     min-height: 0;
     display: flex;
@@ -125,7 +138,7 @@
 }
 
 .calendar-card {
-    width: min(22rem, 40%);
+    width: min(var(--course-rail-width), 40%);
     flex-shrink: 0;
 }
 
@@ -205,6 +218,7 @@
         min-height: 16rem;
     }
 
+    .grade-wheel-card,
     .calendar-card {
         width: 100%;
     }

@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem 0rem 0.5rem;
+    padding: 1rem 1.5rem 0rem 1.5rem;
     background-color: var(--background-grey-color);
     flex-shrink: 0;
 }
