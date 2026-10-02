@@ -1,0 +1,149 @@
+.calendar-card {
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    padding: 1.25rem;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.calendar-header-titles {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.calendar-month {
+    margin-top: -0.15rem;
+    color: var(--text-grey-color);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.15s ease;
+}
+
+.calendar-nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.calendar-nav-arrows {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.calendar-today-btn {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background-color: var(--background-grey-color);
+    color: var(--gradestar-purple1-color);
+    border: 1px solid var(--border-grey-color);
+    cursor: pointer;
+    line-height: 1.2;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.calendar-today-btn:hover {
+    background-color: var(--hover-grey-color);
+    border-color: var(--gradestar-purple4-color);
+}
+
+.calendar-today-btn[hidden] {
+    display: none !important;
+}
+
+.calendar-nav-btn {
+    width: 1.85rem;
+    height: 1.85rem;
+    padding: 0;
+    color: var(--gradestar-purple1-color);
+    background-color: transparent;
+    border: none;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.calendar-nav-btn:hover {
+    background-color: var(--hover-grey-color);
+    color: var(--gradestar-purple2-color);
+}
+
+.calendar-nav-btn:active {
+    background-color: var(--border-grey-color);
+    transform: scale(0.92);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+    text-align: center;
+    transition: opacity 0.15s ease;
+}
+
+.calendar-grid.calendar-loading {
+    opacity: 0.4;
+}
+
+.calendar-weekday {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-grey-color);
+    padding-bottom: 0.25rem;
+    user-select: none;
+}
+
+.calendar-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: var(--gradestar-purple1-color);
+    user-select: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.calendar-day:not(.calendar-day-empty):not(.calendar-day-today):hover {
+    background-color: var(--hover-grey-color);
+}
+
+.calendar-day-today {
+    background-color: var(--gradestar-purple1-color);
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day-due::after {
+    content: "";
+    position: absolute;
+    bottom: 0.12rem;
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 999px;
+    background-color: var(--gradestar-purple2-color);
+}
+
+.calendar-day-today.calendar-day-due::after {
+    background-color: white;
+}

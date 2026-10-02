@@ -24,6 +24,7 @@ const coursesLayout = {
 const coursePageStyles = [
   '/styles/shared/nav.css',
   '/styles/shared/content.css',
+  '/styles/shared/calendar.css',
   '/styles/courses/courses.css',
   '/styles/courses/course-card.css',
   '/styles/courses/course.css',
@@ -66,12 +67,37 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// GET /courses/:courseId/calendar - Get calendar data for a specific month (JSON)
+router.get('/:courseId/calendar', async (req, res, next) => {
+  try {
+    const course = await courseService.getCourseForUser(req.session.userId, req.params.courseId);
+    if (!course) {
+      res.status(404).json({ error: 'Course not found' });
+      return;
+    }
+
+    const targetDate = courseService.parseCalendarQuery(req.query);
+    const calendar = courseService.buildCourseCalendar(course, targetDate);
+    res.json(calendar);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /courses/:courseId - Show one course
 router.get('/:courseId', async (req, res, next) => {
   try {
     const course = await courseService.getCourseForUser(req.session.userId, req.params.courseId);
     if (!course) {
       res.status(404).render('errors/404.ejs');
+      return;
+    }
+
+    const targetDate = courseService.parseCalendarQuery(req.query);
+    const calendar = courseService.buildCourseCalendar(course, targetDate);
+
+    if (req.query.format === 'json' || req.headers.accept?.includes('application/json')) {
+      res.json(calendar);
       return;
     }
 
@@ -85,10 +111,11 @@ router.get('/:courseId', async (req, res, next) => {
       scripts: [
         '/scripts/shared/general.js',
         '/scripts/shared/nav.js',
+        '/scripts/shared/calendar.js',
       ],
       course,
       tasks: courseService.listCourseTasks(course),
-      calendar: courseService.buildCourseCalendar(course),
+      calendar,
     });
   } catch (error) {
     next(error);

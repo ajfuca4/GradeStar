@@ -12,6 +12,7 @@ This document explains the key architectural decisions behind **GradeStar**—wh
 - [ADR-004: Native Node.js Test Runner (`node:test`)](#adr-004-native-nodejs-test-runner-nodetest)
 - [ADR-005: Stateful Session Authentication with `express-session`](#adr-005-stateful-session-authentication-with-express-session)
 - [ADR-006: Feature-Sliced Directory Structure (`src/features/`)](#adr-006-feature-sliced-directory-structure-srcfeatures)
+- [ADR-007: Decoupled Universal Calendar Subsystem](#adr-007-decoupled-universal-calendar-subsystem)
 
 ---
 
@@ -38,7 +39,7 @@ This document explains the key architectural decisions behind **GradeStar**—wh
 - Keep courses, grade groups, and tasks in separate database tables linked by ID references
 - Store all of a student's courses and assignments directly inside their user profile
 
-**Decision**: Nest courses, grade categories, and tasks directly inside each student's user account in MongoDB using [src/models/user-model.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/models/user-model.js).
+**Decision**: Nest courses, grade categories, and tasks directly inside each student's user account in MongoDB using [user-model.js](../src/models/user-model.js).
 
 **Because**: GradeStar is a personal organizer where every class and assignment belongs to just one person. Keeping everything inside the user document means we can load an entire semester in a single database lookup, and deleting an account or course automatically cleans up all associated assignments without leaving orphaned data behind.
 
@@ -95,6 +96,21 @@ This document explains the key architectural decisions behind **GradeStar**—wh
 - Group files by technical role into broad folders like controllers, models, and routes
 - Group files by feature (like authentication or courses) so that related code stays together
 
-**Decision**: Organize the backend into domain-specific folders under [src/features/](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/), grouping routes, business logic, and tests for each area together.
+**Decision**: Organize the backend into domain-specific folders under [features/](../src/features/), grouping routes, business logic, and tests for each area together.
 
 **Because**: As the project grew beyond simple prototypes, having all course-related logic in one folder and all login-related logic in another made everything much easier to find. Developers and AI assistants can understand and edit an entire feature without touching the rest of the project.
+
+---
+
+### ADR-007: Decoupled Universal Calendar Subsystem
+
+**Goal**: Enable dynamic deadline tracking and month navigation across multiple screens (individual courses, student dashboards, and future task planners) without duplicating calendar code or coupling it to specific course routes.
+
+**Options**:
+- Keep the calendar embedded directly inside the courses feature and copy-paste it when other views need a calendar
+- Adopt a heavy third-party client calendar library (like FullCalendar)
+- Decouple the calendar into a shared calculation engine, parameterized EJS partial, modular CSS, and route-agnostic client script
+
+**Decision**: Extract the calendar into a standalone subsystem with pure grid math in [calendar-service.js](../src/features/shared/calendar/calendar-service.js), a reusable template in [calendar.ejs](../views/partials/calendar.ejs), a shared stylesheet in [calendar.css](../public/styles/shared/calendar.css), and a generic client script in [calendar.js](../public/scripts/shared/calendar.js) configured via `data-endpoint` and `data-page-url` attributes.
+
+**Because**: Hardcoding the calendar inside `/courses/:courseId` made it impossible to reuse on future dashboard or schedule views without messy duplication. Separating the grid math from course models means the calendar only cares about due dates, allowing any feature to feed it deliverables. Configuring the client script via data attributes allows any page to support smooth month switching, in-memory caching, and browser history tracking without writing page-specific JavaScript.

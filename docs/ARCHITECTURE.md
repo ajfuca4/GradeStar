@@ -190,16 +190,15 @@ The grade wheel ([views/partials/grade-wheel.ejs](file:///Users/anthonyfuca/Desk
 - **Stroke Dash Offset Calculation**: Because the circumference is normalized to 100, `stroke-dasharray="percentage, 100"` precisely renders the corresponding percentage arc.
 - **Corner Clamping**: The partial applies slight calibration adjustments at high percentages (e.g. $\ge 98\% \to \text{pct} - 3$) to prevent SVG stroke-cap overlap artifacts at the apex of the circle.
 
-### D. Server-Rendered Calendar Subsystem
+### D. Decoupled Calendar Subsystem
 
-Rather than relying on heavy client-side calendar libraries (like FullCalendar), GradeStar builds calendar grids server-side in [course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L79-L110):
+Rather than relying on heavy client-side calendar libraries (like FullCalendar) or coupling calendar rendering to course models, GradeStar isolates calendar logic into a universal, reusable component:
 
-1. **Due Date Aggregation**: Traverses all course tasks and aggregates valid `dueDate` objects.
-2. **Grid Geometry**: Computes the first weekday of the month (0 = Sunday to 6 = Saturday) and fills leading blank slots with `null`.
-3. **Cell Classification**: Emits an array of day cell objects marked with boolean flags:
-   - `isToday`: Day matches the current date.
-   - `hasDue`: One or more deliverables fall on this date.
-4. **View Rendering**: Rendered inside [views/courses/course.ejs](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/views/courses/course.ejs) as a CSS grid with weekday headers.
+1. **Domain Grid Engine ([src/features/shared/calendar/calendar-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/shared/calendar/calendar-service.js))**: Pure calculation functions (`buildCalendarGrid`, `parseCalendarQuery`, `resolveCalendarDate`) that take arbitrary due date arrays and compute month boundaries, day cells (with `isToday` and `hasDue` tags), and relative navigation metadata.
+2. **Feature Delegation ([src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js))**: Course services collect course deliverables and delegate grid generation to the calendar service.
+3. **Reusable Template ([views/partials/calendar.ejs](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/views/partials/calendar.ejs))**: Parameterized partial accepting `calendar`, `endpoint`, and `pageUrl` for universal embedding across courses, dashboards, or upcoming schedule views.
+4. **Route-Agnostic Client Interactivity ([public/scripts/shared/calendar.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/scripts/shared/calendar.js))**: Consumes `data-endpoint` and `data-page-url` attributes for seamless in-place month transitions, in-memory caching, browser history tracking (`pushState`/`popstate`), and keyboard navigation.
+5. **Shared Styling ([public/styles/shared/calendar.css](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/styles/shared/calendar.css))**: Modular card, header, and grid stylesheet usable across any layout.
 
 ---
 

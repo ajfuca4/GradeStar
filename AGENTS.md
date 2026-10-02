@@ -48,10 +48,14 @@ GradeStar/
 │   │   │   ├── auth-service.js   # User lookup, bcrypt hashing, session auth logic
 │   │   │   ├── auth-validation.js# Pure functions for email and password validation rules
 │   │   │   └── auth-validation.test.js # Unit tests for auth validation rules
-│   │   └── courses/              # Course and academic management domain
-│   │       ├── course-fixtures.js# Seed and sample course objects for prototyping
-│   │       ├── course-routes.js  # /courses, /courses/:courseId endpoints
-│   │       └── course-service.js # User-course retrieval, course creation, task sorting, calendar generation
+│   │   ├── courses/              # Course and academic management domain
+│   │   │   ├── course-fixtures.js# Seed and sample course objects for prototyping
+│   │   │   ├── course-routes.js  # /courses, /courses/:courseId endpoints
+│   │   │   └── course-service.js # User-course retrieval, course creation, task sorting, calendar delegation
+│   │   └── shared/               # Shared domain subsystems
+│   │       └── calendar/         # Universal academic calendar engine
+│   │           ├── calendar-service.js # Pure grid calculation, due date mapping, query parsing
+│   │           └── calendar-service.test.js # Unit tests for calendar engine
 │   ├── middleware/               # Express middleware functions
 │   │   ├── error-handler.js      # Global 500 error handling middleware
 │   │   ├── not-found.js          # Global 404 handler middleware
@@ -75,6 +79,7 @@ GradeStar/
 │   │   ├── 404.ejs               # Not found error page
 │   │   └── 500.ejs               # Internal server error page
 │   └── partials/                 # Reusable EJS interface partials
+│       ├── calendar.ejs          # Reusable parameterized calendar card partial
 │       ├── course-card.ejs       # Summary card for a single course in the dashboard
 │       ├── deliverables.ejs      # Single task row with weight badge
 │       ├── grade-wheel.ejs       # SVG circular percentage grade display
@@ -94,16 +99,18 @@ GradeStar/
     │   ├── courses/
     │   │   └── popup.js          # Course creation popup logic and AJAX POST
     │   └── shared/
+    │       ├── calendar.js       # Route-agnostic calendar client script with in-memory cache and pushState
     │       ├── general.js        # Shared client-side helpers
     │       └── nav.js            # Sidebar navigation active state handler
     └── styles/                   # Modular CSS stylesheets
         ├── auth/
         │   └── auth.css          # Login and signup card styles
         ├── courses/
-        │   ├── course.css        # Detailed course page layout, tasks, and calendar styles
+        │   ├── course.css        # Detailed course page layout and tasks styles
         │   ├── course-card.css   # Dashboard course card and grade wheel layout
         │   └── courses.css       # Courses dashboard grid layout
         └── shared/
+            ├── calendar.css      # Reusable calendar card, grid, buttons, and loading styles
             ├── content.css       # Standard page container layout and headers
             ├── general.css       # CSS reset, typography, buttons, and utility classes
             ├── nav.css           # Sidebar styles and responsive layout
@@ -174,6 +181,11 @@ res.render('layouts/app.ejs', {
 - **Icons**: Lucide SVG icons are embedded directly inline into templates to avoid external icon font dependencies.
 - **Accessibility**: Provide `aria-label`, `role="img"`, and sensible fallback content on interactive SVG elements and buttons.
 
+### 4.6 Database Integrity & Mutation Guardrails
+- **Strict Prohibition on Direct Database Mutation**: Under **no circumstances** should AI agents directly access, modify, update, delete, or seed database objects (e.g., modifying user records, credentials, passwords, courses, or collections via ad-hoc scripts, Node REPLs, or database connections).
+- **Preserve User Data**: Live or local MongoDB data must remain completely untouched by autonomous agent actions.
+- **Zero-Mutation Testing**: All verification and testing must run exclusively through automated unit tests with mocks and fixtures, never by manipulating live database records.
+
 ---
 
 ## 5. Testing & Code Quality
@@ -181,6 +193,7 @@ res.render('layouts/app.ejs', {
 - **Native Runner**: Tests run via `node --test` matching `*.test.js` files.
 - **Assertion Library**: Use `node:assert/strict`.
 - **Validation Isolation**: Always extract pure logic (validators, grade calculations, calendar builders) so they can be thoroughly unit tested without mocking MongoDB connections or HTTP request/response objects.
+- **Zero Database Mutation During Verification**: Never run manual scripts or commands that mutate database documents in MongoDB to satisfy a test or verify UI behavior.
 - **Running tests before completion**: Always run `npm test` after modifying logic to verify that no regressions were introduced.
 
 ---

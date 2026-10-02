@@ -65,7 +65,10 @@ function listCourseTasks(course) {
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
+const calendarService = require('../shared/calendar/calendar-service');
+
 function collectDueDates(course) {
+  if (!course) return [];
   const groupedTasks = (course.taskGroups || []).flatMap((group) => group.tasks || []);
   const tasks = [...groupedTasks, ...(course.uniqueTasks || [])];
 
@@ -76,37 +79,16 @@ function collectDueDates(course) {
     .filter((date) => !Number.isNaN(date.getTime()));
 }
 
-function buildCourseCalendar(course, now = new Date()) {
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const firstWeekday = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const dueDays = new Set(
-    collectDueDates(course)
-      .filter((date) => date.getFullYear() === year && date.getMonth() === month)
-      .map((date) => date.getDate())
-  );
-
-  const cells = [];
-  for (let index = 0; index < firstWeekday; index += 1) {
-    cells.push(null);
-  }
-  for (let day = 1; day <= daysInMonth; day += 1) {
-    cells.push({
-      day,
-      isToday: day === now.getDate(),
-      hasDue: dueDays.has(day),
-    });
-  }
-
-  return {
-    label: new Date(year, month, 1).toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric',
-    }),
-    weekdays: WEEKDAYS,
-    cells,
-  };
+/**
+ * Computes calendar grid cells, due date indicators, and prev/next month metadata for a course.
+ * @param {object} course - Course document with task groups and unique tasks.
+ * @param {Date|string|number|object} [targetDate=new Date()] - Month/year to construct.
+ * @param {Date} [today=new Date()] - Reference date for today highlighting.
+ * @returns {object} Calendar model with label, weekdays, cells, prev/next links, and today metadata.
+ */
+function buildCourseCalendar(course, targetDate = new Date(), today = new Date()) {
+  const dueDates = collectDueDates(course);
+  return calendarService.buildCalendarGrid({ dueDates, targetDate, today });
 }
 
 function isCoursesPath(pathname) {
@@ -122,6 +104,8 @@ module.exports = {
   createCourse,
   listCourseTasks,
   buildCourseCalendar,
+  parseCalendarQuery: calendarService.parseCalendarQuery,
+  resolveCalendarDate: calendarService.resolveCalendarDate,
   isCoursesPath,
 };
 

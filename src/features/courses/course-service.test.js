@@ -84,4 +84,129 @@ describe('buildCourseCalendar', () => {
     assert.ok(dueCell);
     assert.equal(dueCell.hasDue, true);
   });
+
+  it('calculates prev and next month metadata correctly for normal months', () => {
+    const fixedDate = new Date(2026, 9, 1); // October 2026
+    const calendar = buildCourseCalendar({}, fixedDate);
+
+    assert.equal(calendar.year, 2026);
+    assert.equal(calendar.month, 10);
+    assert.deepEqual(calendar.prev, {
+      year: 2026,
+      month: 9,
+      label: 'September 2026',
+    });
+    assert.deepEqual(calendar.next, {
+      year: 2026,
+      month: 11,
+      label: 'November 2026',
+    });
+  });
+
+  it('handles year boundary rollover from December to January', () => {
+    const december = new Date(2026, 11, 1); // December 2026
+    const calendar = buildCourseCalendar({}, december);
+
+    assert.equal(calendar.year, 2026);
+    assert.equal(calendar.month, 12);
+    assert.deepEqual(calendar.prev, {
+      year: 2026,
+      month: 11,
+      label: 'November 2026',
+    });
+    assert.deepEqual(calendar.next, {
+      year: 2027,
+      month: 1,
+      label: 'January 2027',
+    });
+  });
+
+  it('handles year boundary rollover from January to December', () => {
+    const january = new Date(2026, 0, 1); // January 2026
+    const calendar = buildCourseCalendar({}, january);
+
+    assert.equal(calendar.year, 2026);
+    assert.equal(calendar.month, 1);
+    assert.deepEqual(calendar.prev, {
+      year: 2025,
+      month: 12,
+      label: 'December 2025',
+    });
+    assert.deepEqual(calendar.next, {
+      year: 2026,
+      month: 2,
+      label: 'February 2026',
+    });
+  });
+
+  it('correctly sets isToday only when viewing the current month and matching day', () => {
+    const today = new Date(2026, 9, 5); // October 5, 2026
+    const october = new Date(2026, 9, 1);
+    const november = new Date(2026, 10, 1);
+
+    const octCalendar = buildCourseCalendar({}, october, today);
+    assert.equal(octCalendar.isCurrentMonth, true);
+    const day5Cell = octCalendar.cells.find((c) => c && c.day === 5);
+    const day6Cell = octCalendar.cells.find((c) => c && c.day === 6);
+    assert.equal(day5Cell.isToday, true);
+    assert.equal(day6Cell.isToday, false);
+
+    const novCalendar = buildCourseCalendar({}, november, today);
+    assert.equal(novCalendar.isCurrentMonth, false);
+    const novDay5Cell = novCalendar.cells.find((c) => c && c.day === 5);
+    assert.equal(novDay5Cell.isToday, false);
+  });
+
+  it('filters due dates specifically to the target month', () => {
+    const course = {
+      taskGroups: [
+        { tasks: [{ title: 'October Midterm', dueDate: new Date(2026, 9, 20) }] },
+      ],
+      uniqueTasks: [
+        { title: 'November Project', dueDate: new Date(2026, 10, 10) },
+      ],
+    };
+
+    const octCalendar = buildCourseCalendar(course, new Date(2026, 9, 1));
+    const novCalendar = buildCourseCalendar(course, new Date(2026, 10, 1));
+
+    const octDay20 = octCalendar.cells.find((c) => c && c.day === 20);
+    const octDay10 = octCalendar.cells.find((c) => c && c.day === 10);
+    assert.equal(octDay20.hasDue, true);
+    assert.equal(octDay10.hasDue, false);
+
+    const novDay20 = novCalendar.cells.find((c) => c && c.day === 20);
+    const novDay10 = novCalendar.cells.find((c) => c && c.day === 10);
+    assert.equal(novDay20.hasDue, false);
+    assert.equal(novDay10.hasDue, true);
+  });
+});
+
+describe('parseCalendarQuery', () => {
+  const { parseCalendarQuery } = require('./course-service');
+
+  it('parses valid year and month query parameters', () => {
+    const date = parseCalendarQuery({ year: '2026', month: '11' });
+    assert.ok(date instanceof Date);
+    assert.equal(date.getFullYear(), 2026);
+    assert.equal(date.getMonth(), 10); // November is 10 in 0-based indexing
+    assert.equal(date.getDate(), 1);
+  });
+
+  it('accepts numeric values as well', () => {
+    const date = parseCalendarQuery({ year: 2027, month: 3 });
+    assert.ok(date instanceof Date);
+    assert.equal(date.getFullYear(), 2027);
+    assert.equal(date.getMonth(), 2);
+  });
+
+  it('returns undefined for missing or invalid query values', () => {
+    assert.equal(parseCalendarQuery({}), undefined);
+    assert.equal(parseCalendarQuery(null), undefined);
+    assert.equal(parseCalendarQuery({ year: 'invalid', month: '5' }), undefined);
+    assert.equal(parseCalendarQuery({ year: '2026', month: '0' }), undefined);
+    assert.equal(parseCalendarQuery({ year: '2026', month: '13' }), undefined);
+    assert.equal(parseCalendarQuery({ year: '1800', month: '5' }), undefined);
+    assert.equal(parseCalendarQuery({ year: '3000', month: '5' }), undefined);
+  });
 });
