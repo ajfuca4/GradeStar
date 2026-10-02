@@ -109,10 +109,19 @@ function buildCourseCalendar(course, now = new Date()) {
   };
 }
 
+function isCoursesPath(pathname) {
+  if (!pathname || typeof pathname !== 'string') {
+    return false;
+  }
+  return /(?:^|\/)courses(?:\/|\?|#|$)/.test(pathname);
+}
+
 module.exports = {
   getCoursesForUser,
   getCourseForUser,
   createCourse,
   listCourseTasks,
   buildCourseCalendar,
+  isCoursesPath,
 };
+

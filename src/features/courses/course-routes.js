@@ -5,6 +5,7 @@ const courseService = require('./course-service');
 const coursesLayout = {
   title: 'Courses',
   showNav: true,
+  activeNav: 'courses',
   contentPartial: '../courses/courses.ejs',
   styles: [
     '/styles/shared/nav.css',
@@ -78,6 +79,7 @@ router.get('/:courseId', async (req, res, next) => {
     res.render('layouts/app.ejs', {
       title: pageTitle,
       showNav: true,
+      activeNav: 'courses',
       contentPartial: '../courses/course.ejs',
       styles: coursePageStyles,
       scripts: [

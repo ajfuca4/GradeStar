@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+- **Navigation Active State**: Highlighted the Courses item in the navigation bar when visiting `/courses` or any sub-route (`...courses/...`), with server-side pre-rendering, scoped client-side route tracking, and accessibility indicators.
+
 ### Planned
 - Interactive Task Group and Deliverable management modals (CRUD).
 - Automated weighted grade calculation engine.

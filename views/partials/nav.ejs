@@ -4,7 +4,12 @@
             <img id="logo" src="/images/Wordmark Logo White.svg" alt="GradeStar Logo">
         </header>
         <ul class="nav-div scaleable">
-            <button id="courses-btn" class="selectable-btn">
+            <%
+                const isCoursesSelected = (typeof activeNav !== 'undefined' && activeNav === 'courses') ||
+                    (typeof currentPath === 'string' && /(?:^|\/)courses(?:\/|\?|#|$)/.test(currentPath)) ||
+                    (typeof contentPartial === 'string' && contentPartial.includes('courses/'));
+            %>
+            <button id="courses-btn" class="selectable-btn<%= isCoursesSelected ? ' selected' : '' %>"<%= isCoursesSelected ? ' aria-current="page"' : '' %>>
                 <div class="selectable-btn-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
