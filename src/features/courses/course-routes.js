@@ -11,6 +11,7 @@ const coursesLayout = {
     '/styles/shared/nav.css',
     '/styles/shared/popup.css',
     '/styles/shared/content.css',
+    '/styles/shared/dropdown.css',
     '/styles/courses/courses.css',
     '/styles/courses/course-card.css',
   ],
@@ -18,6 +19,7 @@ const coursesLayout = {
     '/scripts/shared/general.js',
     '/scripts/shared/nav.js',
     '/scripts/courses/popup.js',
+    '/scripts/courses/options.js',
   ],
 };
 

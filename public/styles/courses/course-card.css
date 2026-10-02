@@ -13,7 +13,7 @@
 }
 
 .course-card:hover {
-    box-shadow: 0 0 0.5rem 0rem rgba(0,0,0,0.25);
+    box-shadow: 0 0 0.5rem 0rem rgba(0, 0, 0, 0.25);
 }
 
 .course-card-link {
@@ -52,6 +52,10 @@
     font-style: italic;
     color: var(--border-grey-color);
     white-space: nowrap;
+}
+
+.options-wrapper {
+    position: relative;
 }
 
 .options-btn {
@@ -124,12 +128,11 @@
 }
 
 #deliverableOverflow {
-    display: flex; 
-    margin-right: 0.5rem; 
+    display: flex;
+    margin-right: 0.5rem;
     justify-content: end;
 }
 
 #deliverableOverflow span:hover {
     text-decoration: underline;
 }
-
