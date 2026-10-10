@@ -37,7 +37,8 @@ GradeStar/
 │   ├── ARCHITECTURE.md           # System topology, data flow, schema deep dive
 │   ├── CHANGELOG.md              # Historical releases and unreleased changes
 │   ├── DECISIONS.md              # Architecture Decision Records (ADRs)
-│   └── ROADMAP.md                # Planned milestones and feature tracking
+│   ├── ROADMAP.md                # Planned milestones and feature tracking
+│   └── functions/                # Function directory (catalog of all functions, callers, callees)
 ├── src/                          # Server-side application source code
 │   ├── app.js                    # Express app initialization, middleware pipeline, server bootstrap
 │   ├── config/
@@ -195,6 +196,7 @@ For exhaustive technical references, consult the dedicated guides in the `docs/`
 | [DECISIONS.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/DECISIONS.md) | Architecture Decision Records (ADRs) explaining the rationale behind design choices. |
 | [ROADMAP.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/ROADMAP.md) | Product vision, current milestone deliverables, and planned feature roadmap. |
 | [CHANGELOG.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/CHANGELOG.md) | Version history, recent updates, bug fixes, and breaking changes. |
+| [functions/](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/README.md) | Complete directory of codebase functions, their callers, callees, and brief purposes. |
 
 ### File by File Documentation Standards
 
@@ -226,3 +228,20 @@ When determining whether to record an Architecture Decision Record (ADR) in [DEC
      - `**Decision**:` The selected architectural approach or technology.
      - `**Because**:` The technical rationale, benefits, and trade-offs justifying the decision.
   3. Ensure the **Index of Decisions** at the top of [DECISIONS.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/DECISIONS.md) is updated with a direct anchor link to the new record.
+
+### 6.2 `functions/`: Maintaining the Function Directory
+
+The [`docs/functions/`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/README.md) directory maintains an exhaustive reference catalog of every function, route handler, middleware, and client-side script across the codebase.
+
+- **Master Document**: [`docs/functions/README.md`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/README.md) contains the complete project-wide function index table, end-to-end call sequences, and an inverted caller index.
+- **Subsystem Breakdown**:
+  - [server.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/server.md): Server bootstrapping, MongoDB connectivity, and Express middleware.
+  - [auth.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/auth.md): Authentication services, bcrypt hashing, and validation utilities.
+  - [courses.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/courses.md): Course queries, creation, task aggregation, and course routes.
+  - [calendar.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/calendar.md): Universal calendar engine, date resolution, and query parsing.
+  - [client.md](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/client.md): Client-side event handlers, modal popups, and UI utilities.
+- **Maintenance Invariant**: Whenever adding, modifying, or removing functions, developers and agents must update both the master index in [`docs/functions/README.md`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/docs/functions/README.md) and the corresponding subsystem document with:
+  1. Clickable file link and line range.
+  2. Brief 1-2 sentence description of what the function does.
+  3. Where it is called from (caller functions, route endpoints, or DOM events).
+  4. What other functions it calls (callees and key library methods).
