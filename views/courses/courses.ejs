@@ -16,25 +16,22 @@
         </button>
     </header>
     <ul class="content-list">
-        <% if (courses.length===0) { %>
-            <li>
-                <button type="button" class="add-course-card" data-popup-open="add-course-tmpl">
-                    <span class="add-course-card-icon circle center-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            aria-hidden="true">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
-                        </svg>
-                    </span>
-                    <span class="add-course-card-text">Add a Course</span>
-                </button>
-            </li>
-            <% } else { %>
-                <% courses.forEach(function(c) { %>
-                    <%- include("../partials/course-card.ejs", { courseItem: c }) %>
-                        <% }) %>
-                            <% } %>
+        <li id="empty-courses-state" <%= courses.length > 0 ? 'hidden' : '' %>>
+            <button type="button" class="add-course-card" data-popup-open="add-course-tmpl">
+                <span class="add-course-card-icon circle center-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5v14"></path>
+                    </svg>
+                </span>
+                <span class="add-course-card-text">Add a Course</span>
+            </button>
+        </li>
+        <% courses.forEach(function(c) { %>
+            <%- include("../partials/course-card.ejs", { courseItem: c }) %>
+        <% }) %>
     </ul>
 
     <template id="add-course-tmpl">

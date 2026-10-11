@@ -64,8 +64,10 @@
     background-color: white;
 }
 
-option-text {
-    color: var(--text-grey-color);
+.option-text {
+    color: black;
+    font-weight: 400;
+    font-size: small;
 }
 
 .pct-wheel {
