@@ -75,9 +75,18 @@
 .pct-wheel {
     position: relative;
     flex-shrink: 0;
-    height: 4rem;
-    width: 4rem;
+    height: 3.5rem;
+    width: 3.5rem;
     border: none;
+    border-radius: 999px;
+}
+
+.pct-wheel-container {
+    position: relative;
+    padding: 0.15rem;
+    border: none;
+    background-color: white;
+    border-radius: 999px;
 }
 
 .pct-wheel-svg {
@@ -88,7 +97,7 @@
 }
 
 .pct-wheel-track {
-    stroke: var(--background-grey-color);
+    stroke: var(--hover-grey-color);
 }
 
 .pct-wheel-fill {

@@ -1,14 +1,17 @@
 <li class="course-card course-<%= courseItem.colour %>" data-course-id="<%= courseItem._id %>">
     <a class="course-card-link" href="/courses/<%= courseItem._id %>">
-        <%- include("./grade-wheel.ejs", { grade: courseItem.grade, ariaLabel: "Course grade" }) %>
-            <div class="course-card-text spacer">
-                <span class="course-card-text1 elipsis-text">
-                    <%= courseItem.title %>
-                </span>
-                <span class="course-card-text2 elipsis-text">
-                    <%= courseItem.code %>
-                </span>
-            </div>
+        <div class="pct-wheel-container">
+            <%- include("./grade-wheel.ejs", { grade: courseItem.grade, ariaLabel: "Course grade" }) %>
+        </div>
+
+        <div class="course-card-text spacer">
+            <span class="course-card-text1 elipsis-text">
+                <%= courseItem.title %>
+            </span>
+            <span class="course-card-text2 elipsis-text">
+                <%= courseItem.code %>
+            </span>
+        </div>
     </a>
     <div class="options-wrapper">
         <button type="button" class="options-btn circle clickable-btn center-content course-<%= courseItem.colour %>">
