@@ -50,20 +50,10 @@
             <% } %>
         </ul>
     </section>
-    <section class="calendar-card" aria-label="Course calendar">
-        <h2>Calendar</h2>
-        <p class="calendar-month"><%= calendar.label %></p>
-        <div class="calendar-grid">
-            <% calendar.weekdays.forEach(function (weekday) { %>
-                <span class="calendar-weekday"><%= weekday %></span>
-            <% }) %>
-            <% calendar.cells.forEach(function (cell) { %>
-                <% if (!cell) { %>
-                    <span class="calendar-day calendar-day-empty"></span>
-                <% } else { %>
-                    <span class="calendar-day<%= cell.isToday ? ' calendar-day-today' : '' %><%= cell.hasDue ? ' calendar-day-due' : '' %>"><%= cell.day %></span>
-                <% } %>
-            <% }) %>
-        </div>
-    </section>
+    <%- include("../partials/calendar.ejs", {
+        calendar,
+        endpoint: '/courses/' + course._id + '/calendar',
+        pageUrl: '/courses/' + course._id,
+        ariaLabel: 'Course calendar'
+    }) %>
 </div>

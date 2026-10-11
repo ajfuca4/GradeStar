@@ -27,7 +27,7 @@ async function getCourseForUser(userId, courseId) {
   return user.courses.id(courseId);
 }
 
-async function createCourse(userId, { title, code }) {
+async function createCourse(userId, { title, code, term }) {
   const user = await User.findById(userId);
   if (!user) {
     return null;
@@ -36,6 +36,7 @@ async function createCourse(userId, { title, code }) {
   user.courses.push({
     title: title.trim(),
     code: code.trim(),
+    term: typeof term === 'string' ? term.trim() : '',
     colour: 'purple',
     startDate: new Date(),
     grade: 0,
@@ -45,6 +46,27 @@ async function createCourse(userId, { title, code }) {
   await user.save();
 
   return user.courses[user.courses.length - 1];
+}
+
+async function deleteCourse(userId, courseId) {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return null;
+  }
+
+  user.courses.pull({ _id: courseId });
+  await user.save();
+
+  return getUniqueTermsForCourses(user.courses);
+}
+
+function duplicateCourse() {
+  console.log("duplicateCourse");
+}
+
+function editCourse() {
+  console.log("editCourse");
 }
 
 function listCourseTasks(course) {
@@ -65,7 +87,10 @@ function listCourseTasks(course) {
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
+const calendarService = require('../shared/calendar/calendar-service');
+
 function collectDueDates(course) {
+  if (!course) return [];
   const groupedTasks = (course.taskGroups || []).flatMap((group) => group.tasks || []);
   const tasks = [...groupedTasks, ...(course.uniqueTasks || [])];
 
@@ -76,43 +101,52 @@ function collectDueDates(course) {
     .filter((date) => !Number.isNaN(date.getTime()));
 }
 
-function buildCourseCalendar(course, now = new Date()) {
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const firstWeekday = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const dueDays = new Set(
-    collectDueDates(course)
-      .filter((date) => date.getFullYear() === year && date.getMonth() === month)
-      .map((date) => date.getDate())
-  );
+/**
+ * Computes calendar grid cells, due date indicators, and prev/next month metadata for a course.
+ * @param {object} course - Course document with task groups and unique tasks.
+ * @param {Date|string|number|object} [targetDate=new Date()] - Month/year to construct.
+ * @param {Date} [today=new Date()] - Reference date for today highlighting.
+ * @returns {object} Calendar model with label, weekdays, cells, prev/next links, and today metadata.
+ */
+function buildCourseCalendar(course, targetDate = new Date(), today = new Date()) {
+  const dueDates = collectDueDates(course);
+  return calendarService.buildCalendarGrid({ dueDates, targetDate, today });
+}
 
-  const cells = [];
-  for (let index = 0; index < firstWeekday; index += 1) {
-    cells.push(null);
+function isCoursesPath(pathname) {
+  if (!pathname || typeof pathname !== 'string') {
+    return false;
   }
-  for (let day = 1; day <= daysInMonth; day += 1) {
-    cells.push({
-      day,
-      isToday: day === now.getDate(),
-      hasDue: dueDays.has(day),
-    });
+  return /(?:^|\/)courses(?:\/|\?|#|$)/.test(pathname);
+}
+
+function getUniqueTermsForCourses(courses) {
+  if (!Array.isArray(courses)) {
+    return [];
   }
 
-  return {
-    label: new Date(year, month, 1).toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric',
-    }),
-    weekdays: WEEKDAYS,
-    cells,
-  };
+  const termsSet = new Set();
+  for (const course of courses) {
+    if (course && typeof course.term === 'string') {
+      const trimmed = course.term.trim();
+      if (trimmed) {
+        termsSet.add(trimmed);
+      }
+    }
+  }
+
+  return Array.from(termsSet);
 }
 
 module.exports = {
   getCoursesForUser,
   getCourseForUser,
   createCourse,
+  getUniqueTermsForCourses,
   listCourseTasks,
   buildCourseCalendar,
+  parseCalendarQuery: calendarService.parseCalendarQuery,
+  resolveCalendarDate: calendarService.resolveCalendarDate,
+  isCoursesPath,
 };
+

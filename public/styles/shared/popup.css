@@ -19,7 +19,8 @@
     min-width: 30rem;
     min-height: 15rem;
     max-width: 45rem;
-    max-height: 25rem;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -48,6 +49,85 @@
 }
 
 /* MAYBE BREAK UP CSS INTO SPECIFIC POPUP TEMPLATES */
+
+.term-tags-wrapper {
+    margin-top: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.term-tags-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0.4rem;
+    padding: 4px 2px;
+    min-width: 0;
+    max-width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-grey-color) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.term-tags-list::-webkit-scrollbar {
+    height: 4px;
+}
+
+.term-tags-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.term-tags-list::-webkit-scrollbar-thumb {
+    background: var(--border-grey-color);
+    border-radius: 999px;
+}
+
+.term-tags-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-grey-color);
+}
+
+.term-tag-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    background-color: var(--background-grey-color);
+    color: var(--gradestar-purple1-color);
+    border: 1px solid var(--border-grey-color);
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    user-select: none;
+}
+
+.term-tag-btn:hover {
+    background-color: var(--gradestar-purple4-color);
+    color: white;
+    border-color: var(--gradestar-purple4-color);
+    transform: translateY(-1px);
+}
+
+.term-tag-btn:active {
+    transform: translateY(0);
+}
+
+.term-tag-btn.active {
+    background-color: var(--gradestar-purple1-color);
+    color: white;
+    border-color: var(--gradestar-purple1-color);
+    font-weight: 500;
+}
+
+.term-tag-btn:focus-visible {
+    outline: 2px solid var(--gradestar-purple2-color);
+    outline-offset: 1px;
+}
 
 #create-course-btn {
     margin-top: 1rem;

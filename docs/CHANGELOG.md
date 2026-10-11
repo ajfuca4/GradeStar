@@ -8,10 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+- **Decoupled Universal Calendar Subsystem**: Extracted calendar grid calculations into a standalone, route-agnostic domain engine ([src/features/shared/calendar/calendar-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/shared/calendar/calendar-service.js)), reusable partial template ([views/partials/calendar.ejs](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/views/partials/calendar.ejs)), shared stylesheet ([public/styles/shared/calendar.css](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/styles/shared/calendar.css)), and dynamic attribute-driven client script ([public/scripts/shared/calendar.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/scripts/shared/calendar.js)) for universal reuse across the application.
+- **Interactive Calendar Month Navigation**: Added bidirectional month navigation (previous and next month buttons), jump-to-today shortcut, client-side dynamic month updates with cache and browser history synchronization, and query parameter support (`?year=...&month=...`) on course views.
+- **Calendar Data Endpoint**: Added `GET /courses/:courseId/calendar` JSON endpoint for fast asynchronous month switching.
+- **Navigation Active State**: Highlighted the Courses item in the navigation bar when visiting `/courses` or any sub-route (`...courses/...`), with server-side pre-rendering, scoped client-side route tracking, and accessibility indicators.
+
 ### Planned
 - Interactive Task Group and Deliverable management modals (CRUD).
 - Automated weighted grade calculation engine.
-- Interactive calendar month navigation and deadline popovers.
+- Calendar deadline popovers when clicking days with deliverables.
 - Term separation support (`startDateSeparation`) on the courses dashboard.
 - "What-If" grade simulation tool.
 
