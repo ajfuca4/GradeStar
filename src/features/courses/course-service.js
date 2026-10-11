@@ -27,7 +27,7 @@ async function getCourseForUser(userId, courseId) {
   return user.courses.id(courseId);
 }
 
-async function createCourse(userId, { title, code }) {
+async function createCourse(userId, { title, code, term }) {
   const user = await User.findById(userId);
   if (!user) {
     return null;
@@ -36,6 +36,7 @@ async function createCourse(userId, { title, code }) {
   user.courses.push({
     title: title.trim(),
     code: code.trim(),
+    term: typeof term === 'string' ? term.trim() : '',
     colour: 'purple',
     startDate: new Date(),
     grade: 0,
@@ -45,6 +46,27 @@ async function createCourse(userId, { title, code }) {
   await user.save();
 
   return user.courses[user.courses.length - 1];
+}
+
+async function deleteCourse(userId, courseId) {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return null;
+  }
+
+  user.courses.pull({ _id: courseId });
+  await user.save();
+
+  return getUniqueTermsForCourses(user.courses);
+}
+
+function duplicateCourse() {
+  console.log("duplicateCourse");
+}
+
+function editCourse() {
+  console.log("editCourse");
 }
 
 function listCourseTasks(course) {
@@ -98,10 +120,29 @@ function isCoursesPath(pathname) {
   return /(?:^|\/)courses(?:\/|\?|#|$)/.test(pathname);
 }
 
+function getUniqueTermsForCourses(courses) {
+  if (!Array.isArray(courses)) {
+    return [];
+  }
+
+  const termsSet = new Set();
+  for (const course of courses) {
+    if (course && typeof course.term === 'string') {
+      const trimmed = course.term.trim();
+      if (trimmed) {
+        termsSet.add(trimmed);
+      }
+    }
+  }
+
+  return Array.from(termsSet);
+}
+
 module.exports = {
   getCoursesForUser,
   getCourseForUser,
   createCourse,
+  getUniqueTermsForCourses,
   listCourseTasks,
   buildCourseCalendar,
   parseCalendarQuery: calendarService.parseCalendarQuery,

@@ -34,10 +34,12 @@ const coursePageStyles = [
 router.get('/', async (req, res, next) => {
   try {
     const courses = await courseService.getCoursesForUser(req.session.userId);
+    const terms = courseService.getUniqueTermsForCourses(courses);
     res.render('layouts/app.ejs', {
       ...coursesLayout,
       email: 'Test',
       courses,
+      terms,
     });
   } catch (error) {
     next(error);
@@ -48,6 +50,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const title = typeof req.body.title === 'string' ? req.body.title.trim() : '';
   const code = typeof req.body.code === 'string' ? req.body.code.trim() : '';
+  const term = typeof req.body.term === 'string' ? req.body.term.trim() : '';
 
   if (!title || !code) {
     res.status(400).json({ error: 'Enter a course code and title.' });
@@ -55,7 +58,7 @@ router.post('/', async (req, res, next) => {
   }
 
   try {
-    const course = await courseService.createCourse(req.session.userId, { title, code });
+    const course = await courseService.createCourse(req.session.userId, { title, code, term });
     if (!course) {
       res.status(401).json({ error: 'Sign in to create a course.' });
       return;
@@ -121,5 +124,20 @@ router.get('/:courseId', async (req, res, next) => {
     next(error);
   }
 });
+
+// DELETE /courses/:courseId
+router.delete('/:courseId', async (req, res, next) => {
+  try {
+    const terms = await courseService.deleteCourse(req.session.userId, req.params.courseId);
+    if (terms === null) {
+      res.status(404).json({ error: 'Course not found' });
+      return;
+    }
+    res.json({ terms });
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 module.exports = router;

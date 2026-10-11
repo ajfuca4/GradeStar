@@ -4,6 +4,7 @@ const {
   isCoursesPath,
   listCourseTasks,
   buildCourseCalendar,
+  getUniqueTermsForCourses,
 } = require('./course-service');
 
 describe('isCoursesPath', () => {
@@ -208,5 +209,39 @@ describe('parseCalendarQuery', () => {
     assert.equal(parseCalendarQuery({ year: '2026', month: '13' }), undefined);
     assert.equal(parseCalendarQuery({ year: '1800', month: '5' }), undefined);
     assert.equal(parseCalendarQuery({ year: '3000', month: '5' }), undefined);
+  });
+});
+
+describe('getUniqueTermsForCourses', () => {
+  it('returns empty array when given non-array or empty array', () => {
+    assert.deepEqual(getUniqueTermsForCourses([]), []);
+    assert.deepEqual(getUniqueTermsForCourses(null), []);
+    assert.deepEqual(getUniqueTermsForCourses(undefined), []);
+    assert.deepEqual(getUniqueTermsForCourses('not an array'), []);
+  });
+
+  it('extracts unique trimmed terms preserving first-seen order', () => {
+    const courses = [
+      { title: 'Course 1', term: 'Fall 2026' },
+      { title: 'Course 2', term: 'Winter 2027' },
+      { title: 'Course 3', term: 'Fall 2026' },
+      { title: 'Course 4', term: '  Spring 2027  ' },
+    ];
+    assert.deepEqual(getUniqueTermsForCourses(courses), [
+      'Fall 2026',
+      'Winter 2027',
+      'Spring 2027',
+    ]);
+  });
+
+  it('filters out empty, whitespace-only, or missing terms', () => {
+    const courses = [
+      { title: 'Course 1', term: '' },
+      { title: 'Course 2', term: '   ' },
+      { title: 'Course 3' },
+      { title: 'Course 4', term: null },
+      { title: 'Course 5', term: 'Summer 2026' },
+    ];
+    assert.deepEqual(getUniqueTermsForCourses(courses), ['Summer 2026']);
   });
 });
