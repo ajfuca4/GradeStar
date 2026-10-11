@@ -1,7 +1,7 @@
 <li class="dropdown-item-container">
-    <button type="button" class="dropdown-item" data-action="<%= option %>">
-        <p class="option-text">
-            <%= option %>
+    <button type="button" class="dropdown-item" data-action="<%= action %>">
+        <p class="option-text <% if (isDestructive) { %> red-text <% } %>">
+            <%= label %>
         </p>
     </button>
 </li>

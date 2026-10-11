@@ -1,6 +1,6 @@
 .dropdown-container {
     background-color: white;
-    border: red 1px solid;
+    border: var(--border-grey-color) 1px solid;
     border-radius: 0.75rem .25rem 0.75rem 0.75rem;
     width: 10rem;
     position: absolute;
@@ -40,7 +40,6 @@
     background-color: white;
     font-size: medium;
     font-family: inherit;
-    color: var(--accent-color);
 }
 
 .dropdown-item:hover {
@@ -48,4 +47,5 @@
     border-radius: 0.5rem;
     visibility: inherit;
     transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    cursor: pointer;
 }

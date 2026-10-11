@@ -18,6 +18,8 @@
             </svg>
         </button>
         <!-- Cannot have nested buttons therefore must include dropdown after button.  -->
-        <%- include("../partials/dropdown.ejs", {options: ["edit", "duplicate" , "delete" ]}) %>
+        <%- include("../partials/dropdown.ejs", {options: [{label: "Edit" , action: "edit" , isDestructive: false},
+            {label: "Duplicate" , action: "duplicate" , isDestructive: false}, {label: "Delete" , action: "delete" ,
+            isDestructive: true }]}) %>
     </div>
 </li>
