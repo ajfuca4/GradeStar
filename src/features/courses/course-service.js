@@ -94,7 +94,7 @@ async function duplicateCourse(userId, courseId) {
   }
 
   const newCourse = user.courses.create({
-    title: `${course.title} (1)`,
+    title: `Copy of ${course.title}`,
     code: course.code,
     term: course.term,
     colour: course.colour,

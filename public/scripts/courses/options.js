@@ -1,7 +1,7 @@
 import { updateTermList } from './popup.js';
 
 document.addEventListener('click', async (event) => {
-    // 1. Toggle options dropdown
+    // Toggle options dropdown
     const optionsBtn = event.target.closest('.options-btn');
     if (optionsBtn) {
         const target = optionsBtn.closest('.options-wrapper');
@@ -17,7 +17,7 @@ document.addEventListener('click', async (event) => {
         return;
     }
 
-    // 2. Delete course
+    // Delete course
     const deleteBtn = event.target.closest('.dropdown-item[data-action="delete"]');
     if (deleteBtn) {
         const courseCard = deleteBtn.closest('.course-card');
@@ -47,7 +47,7 @@ document.addEventListener('click', async (event) => {
         return;
     }
 
-    // 3. Duplicate course
+    // Duplicate course
     const duplicateBtn = event.target.closest('.dropdown-item[data-action="duplicate"]');
     if (duplicateBtn) {
         const courseCard = duplicateBtn.closest('.course-card');
@@ -98,13 +98,11 @@ document.addEventListener('click', async (event) => {
             }
         } catch (err) {
             console.error("Network Error duplicating course:", err);
-        } finally {
-            duplicateBtn.disabled = false;
         }
         return;
     }
 
-    // 4. Click outside dropdown closes open dropdowns
+    // Click outside dropdown closes open dropdowns
     if (!event.target.closest('.options-wrapper')) {
         document.querySelectorAll('.dropdown-container.visible').forEach((dropdown) => {
             dropdown.classList.remove('visible');
