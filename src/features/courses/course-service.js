@@ -37,7 +37,7 @@ async function createCourse(userId, { title, code, term }) {
     title: title.trim(),
     code: code.trim(),
     term: typeof term === 'string' ? term.trim() : '',
-    colour: 'purple',
+    colour: 'orange',
     startDate: new Date(),
     grade: 0,
     taskGroups: [],

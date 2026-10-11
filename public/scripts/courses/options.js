@@ -62,7 +62,7 @@ document.addEventListener('click', async (event) => {
 
             if (response.ok) {
                 const data = await response.json().catch(() => null);
-                const newId = data?.course?._id || data?.id;
+                const newId = data?.course?._id;
 
                 if (newId) {
                     const newCard = courseCard.cloneNode(true);
@@ -93,6 +93,7 @@ document.addEventListener('click', async (event) => {
                 if (data && Array.isArray(data.terms)) {
                     updateTermList(data.terms);
                 }
+
             } else {
                 alert("Something went wrong duplicating the course. Please try again later.");
             }
