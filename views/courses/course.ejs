@@ -1,4 +1,4 @@
-<header id="page-header">
+<header id="page-header" class="<%= course.colour %>">
     <div class="course-header-main">
         <a class="back-btn" href="/courses" aria-label="Back to courses">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -25,7 +25,7 @@
                 <h2>Grading Schemes</h2>
                 <% const schemeGroups=course.taskGroups || []; %>
                     <% if (schemeGroups.length===0) { %>
-                        <p class="subtle-text">Grading schemes for this course will appear here.</p>
+                        <p class=" subtle-text">Grading schemes for this course will appear here.</p>
                         <% } else { %>
                             <ul class="grade-scheme-list">
                                 <% schemeGroups.forEach(function (group) { %>
@@ -51,10 +51,10 @@
             </button>
     </div>
 </header>
-<div class="course-layout">
+<div class="course-layout <%= course.colour %>">
     <section class="task-panel" aria-label="Course tasks">
         <h2>Tasks</h2>
-        <ul class="task-chart">
+        <ul class=" task-chart">
             <% if (tasks.length===0) { %>
                 <li class="subtle-text">No tasks for this course yet.</li>
                 <% } else { %>
@@ -65,5 +65,5 @@
         </ul>
     </section>
     <%- include("../partials/calendar.ejs", { calendar, endpoint: '/courses/' + course._id + '/calendar' ,
-        pageUrl: '/courses/' + course._id, ariaLabel: 'Course calendar' }) %>
+        pageUrl: '/courses/' + course._id, ariaLabel: 'Course calendar' , colour: course.colour }) %>
 </div>

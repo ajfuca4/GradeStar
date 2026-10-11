@@ -109,5 +109,38 @@ document.addEventListener('click', async (event) => {
             dropdown.classList.remove('visible');
         });
     }
+
+
+    // Edit course
+    const editBtn = event.target.closest('.dropdown-item[data-action="edit"]');
+    if (editBtn) {
+        const courseCard = duplicateBtn.closest('.course-card');
+        if (!courseCard) return;
+
+        const courseId = courseCard.dataset.courseId;
+
+        try {
+            const response = await fetch(`/courses/${courseId}/edit`, {
+                method: 'PATCH',
+            });
+
+            if (response.ok) {
+                const data = await response.json().catch(() => null);
+                const newTitle = data?.course?.title;
+                const newCode = data?.course?.code;
+                const newTerm = data?.course?.term;
+                const newColour = data?.course?.colour;
+
+                courseCard.querySelector('.course-card-text1').textContent = newTitle;
+                courseCard.querySelector('.course-card-text2').textContent = `${newCode} • ${newTerm}`;
+
+                courseCard.classList.remove('red', 'orange', 'yellow', 'lime', 'green', 'teal', 'sky', 'blue', 'purple', 'magenta', 'pink', 'brown', 'gray', 'default-white');
+                courseCard.classList.add(newColour);
+            }
+        }
+        catch (err) {
+            console.error("Network Error editing course:", err);
+        }
+    }
 });
 

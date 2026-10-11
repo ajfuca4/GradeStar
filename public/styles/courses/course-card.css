@@ -9,6 +9,7 @@
     cursor: pointer;
     height: 7rem;
     transition: box-shadow 0.2s ease-in-out;
+    background-color: var(--muted-color);
 }
 
 .course-card:hover {
@@ -58,13 +59,18 @@
 }
 
 .options-btn {
+    background-color: white;
+}
+
+.course-card .options-btn {
     height: 2rem;
     padding: 0.25rem;
+    background-color: var(--muted-color);
 }
 
 .options-btn:hover {
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .option-text {
@@ -75,15 +81,15 @@
 .pct-wheel {
     position: relative;
     flex-shrink: 0;
-    height: 3.5rem;
-    width: 3.5rem;
+    height: 4rem;
+    width: 4rem;
     border: none;
     border-radius: 999px;
 }
 
 .pct-wheel-container {
     position: relative;
-    padding: 0.15rem;
+    padding: 0.2rem;
     border: none;
     background-color: white;
     border-radius: 999px;
@@ -111,7 +117,7 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1;
-    color: var(--gradestar-purple1-color);
+    color: black;
     text-align: center;
 }
 
@@ -152,52 +158,4 @@
 
 #deliverableOverflow span:hover {
     text-decoration: underline;
-}
-
-.course-red {
-    background-color: rgb(255, 120, 120);
-}
-
-.course-orange {
-    background-color: rgb(255, 163, 120);
-}
-
-.course-yellow {
-    background-color: rgb(255, 210, 120);
-}
-
-.course-lime {
-    background-color: rgb(221, 255, 120);
-}
-
-.course-green {
-    background-color: rgb(156, 185, 85);
-}
-
-.course-teal {
-    background-color: rgb(120, 255, 197);
-}
-
-.course-sky {
-    background-color: rgb(120, 221, 255);
-}
-
-.course-blue {
-    background-color: rgb(100, 198, 255);
-}
-
-.course-purple {
-    background-color: rgb(174, 171, 255);
-}
-
-.course-magenta {
-    background-color: rgb(197, 121, 252);
-}
-
-.course-pink {
-    background-color: rgb(252, 166, 249);
-}
-
-.course-grey {
-    background-color: rgb(199, 199, 199);
 }

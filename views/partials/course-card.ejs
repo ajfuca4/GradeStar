@@ -1,7 +1,8 @@
-<li class="course-card course-<%= courseItem.colour %>" data-course-id="<%= courseItem._id %>">
+<li class="course-card <%= courseItem.colour %>" data-course-id="<%= courseItem._id %>">
     <a class="course-card-link" href="/courses/<%= courseItem._id %>">
         <div class="pct-wheel-container">
-            <%- include("./grade-wheel.ejs", { grade: courseItem.grade, ariaLabel: "Course grade" }) %>
+            <%- include("./grade-wheel.ejs", { grade: courseItem.grade, ariaLabel: "Course grade" , colour:
+                courseItem.colour}) %>
         </div>
 
         <div class="course-card-text spacer">
@@ -9,12 +10,12 @@
                 <%= courseItem.title %>
             </span>
             <span class="course-card-text2 elipsis-text">
-                <%= courseItem.code %>
+                <%= courseItem.code %> • <%= courseItem.term %>
             </span>
         </div>
     </a>
     <div class="options-wrapper">
-        <button type="button" class="options-btn circle clickable-btn center-content course-<%= courseItem.colour %>">
+        <button type="button" class="options-btn circle clickable-btn center-content <%= courseItem.colour %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path
                     d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />

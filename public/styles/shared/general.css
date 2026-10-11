@@ -132,7 +132,7 @@ a {
 :root {
     --gradestar-purple1-color: #391a71;
     --gradestar-purple2-color: #7c4cd4;
-    --gradestar-purple3-color: rgb(128, 89, 201);
+    --gradestar-purple3-color: #8059c9;
     --gradestar-purple4-color: #a58dd2;
     --gradestar-purple5-color: #23104b;
     --gradestar-purple6-color: #140a2c;
@@ -169,14 +169,79 @@ ul {
     list-style-type: none;
 }
 
-.red {
-    background-color: red;
-}
-
 .red-text {
-    color: red;
+    color: rgb(251, 35, 35);
 }
 
+.red {
+    --muted-color: rgb(255, 132, 132);
+    --bright-color: rgb(251, 35, 35);
+}
+
+.orange {
+    --muted-color: rgb(255, 163, 120);
+    --bright-color: rgb(251, 99, 29);
+}
+
+.yellow {
+    --muted-color: rgb(255, 210, 120);
+    --bright-color: rgb(255, 178, 25);
+}
+
+.lime {
+    --muted-color: rgb(177, 235, 111);
+    --bright-color: rgb(122, 211, 21);
+}
+
+.green {
+    --muted-color: rgb(115, 198, 113);
+    --bright-color: rgb(21, 154, 19);
+}
+
+.teal {
+    --muted-color: rgb(92, 219, 189);
+    --bright-color: rgb(16, 212, 166);
+}
+
+.sky {
+    --muted-color: rgb(163, 232, 255);
+    --bright-color: rgb(62, 207, 255);
+}
+
+.blue {
+    --muted-color: rgb(120, 165, 255);
+    --bright-color: rgb(44, 114, 255);
+}
+
+.purple {
+    --muted-color: rgb(199, 161, 255);
+    --bright-color: rgb(134, 54, 255);
+}
+
+.magenta {
+    --muted-color: rgb(232, 151, 255);
+    --bright-color: rgb(211, 54, 255);
+}
+
+.pink {
+    --muted-color: rgb(255, 202, 253);
+    --bright-color: rgb(255, 123, 251);
+}
+
+.grey {
+    --muted-color: rgb(187, 187, 187);
+    --bright-color: rgb(145, 145, 145);
+}
+
+.brown {
+    --muted-color: rgb(207, 176, 150);
+    --bright-color: rgb(168, 120, 80);
+}
+
+.default-white {
+    --muted-color: var(--background-grey-color);
+    --bright-color: var(--gradestar-purple2-color);
+}
 
 .selectable-btn {
     color: white;

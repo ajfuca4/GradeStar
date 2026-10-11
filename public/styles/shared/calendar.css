@@ -52,7 +52,7 @@
     padding: 0.2rem 0.55rem;
     border-radius: 999px;
     background-color: var(--background-grey-color);
-    color: var(--gradestar-purple1-color);
+    color: var(--bright-color);
     border: 1px solid var(--border-grey-color);
     cursor: pointer;
     line-height: 1.2;
@@ -72,7 +72,7 @@
     width: 1.85rem;
     height: 1.85rem;
     padding: 0;
-    color: var(--gradestar-purple1-color);
+    color: black;
     background-color: transparent;
     border: none;
     border-radius: 999px;
@@ -83,7 +83,7 @@
 
 .calendar-nav-btn:hover {
     background-color: var(--hover-grey-color);
-    color: var(--gradestar-purple2-color);
+    color: var(--bright-color);
 }
 
 .calendar-nav-btn:active {
@@ -119,17 +119,18 @@
     aspect-ratio: 1;
     border-radius: 999px;
     font-size: 0.9rem;
-    color: var(--gradestar-purple1-color);
+    color: black;
     user-select: none;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .calendar-day:not(.calendar-day-empty):not(.calendar-day-today):hover {
     background-color: var(--hover-grey-color);
+    cursor: pointer;
 }
 
 .calendar-day-today {
-    background-color: var(--gradestar-purple1-color);
+    background-color: var(--bright-color);
     color: white;
     font-weight: 600;
 }

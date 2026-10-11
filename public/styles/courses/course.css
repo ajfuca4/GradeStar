@@ -2,6 +2,14 @@ body {
     --course-rail-width: 21rem;
 }
 
+h1 {
+    color: var(--bright-color)
+}
+
+h2 {
+    color: var(--bright-color)
+}
+
 .course-header-main {
     display: flex;
     align-items: center;
