@@ -61,8 +61,54 @@ async function deleteCourse(userId, courseId) {
   return getUniqueTermsForCourses(user.courses);
 }
 
-function duplicateCourse() {
-  console.log("duplicateCourse");
+function cloneDeliverable(task) {
+  if (!task) return null;
+  const plain = typeof task.toObject === 'function' ? task.toObject() : { ...task };
+  delete plain._id;
+  return plain;
+}
+
+function cloneTaskGroup(group) {
+  if (!group) return null;
+  const plain = typeof group.toObject === 'function' ? group.toObject() : { ...group };
+  delete plain._id;
+  plain.tasks = Array.isArray(plain.tasks)
+    ? plain.tasks.map(cloneDeliverable).filter(Boolean)
+    : [];
+  return plain;
+}
+
+async function duplicateCourse(userId, courseId) {
+  if (!userId || !mongoose.Types.ObjectId.isValid(courseId)) {
+    return null;
+  }
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return null;
+  }
+
+  const course = user.courses.id(courseId);
+  if (!course) {
+    return null;
+  }
+
+  const newCourse = user.courses.create({
+    title: `${course.title} (1)`,
+    code: course.code,
+    term: course.term,
+    colour: course.colour,
+    startDate: course.startDate,
+    endDate: course.endDate,
+    grade: course.grade,
+    taskGroups: (course.taskGroups || []).map(cloneTaskGroup).filter(Boolean),
+    uniqueTasks: (course.uniqueTasks || []).map(cloneDeliverable).filter(Boolean),
+  });
+
+  user.courses.push(newCourse);
+  await user.save();
+
+  return newCourse;
 }
 
 function editCourse() {
@@ -150,6 +196,8 @@ module.exports = {
   isCoursesPath,
   deleteCourse,
   duplicateCourse,
+  cloneDeliverable,
+  cloneTaskGroup,
   editCourse,
 };
 

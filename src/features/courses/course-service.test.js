@@ -5,6 +5,8 @@ const {
   listCourseTasks,
   buildCourseCalendar,
   getUniqueTermsForCourses,
+  cloneDeliverable,
+  cloneTaskGroup,
 } = require('./course-service');
 
 describe('isCoursesPath', () => {
@@ -245,3 +247,72 @@ describe('getUniqueTermsForCourses', () => {
     assert.deepEqual(getUniqueTermsForCourses(courses), ['Summer 2026']);
   });
 });
+
+describe('cloneDeliverable', () => {
+  it('strips _id while preserving deliverable attributes', () => {
+    const rawTask = {
+      _id: '507f1f77bcf86cd799439011',
+      title: 'Assignment 1',
+      weight: 15,
+      pointsAchieved: 95,
+      pointBasis: 100,
+      completed: true,
+      graded: true,
+    };
+    const cloned = cloneDeliverable(rawTask);
+    assert.equal(cloned._id, undefined);
+    assert.equal(cloned.title, 'Assignment 1');
+    assert.equal(cloned.weight, 15);
+    assert.equal(cloned.pointsAchieved, 95);
+    assert.equal(cloned.completed, true);
+  });
+
+  it('handles objects with toObject method (e.g. Mongoose subdocuments)', () => {
+    const mongooseLikeTask = {
+      toObject: () => ({
+        _id: '507f1f77bcf86cd799439012',
+        title: 'Quiz 1',
+        weight: 10,
+        completed: false,
+        graded: false,
+      }),
+    };
+    const cloned = cloneDeliverable(mongooseLikeTask);
+    assert.equal(cloned._id, undefined);
+    assert.equal(cloned.title, 'Quiz 1');
+  });
+
+  it('returns null for null or undefined input', () => {
+    assert.equal(cloneDeliverable(null), null);
+    assert.equal(cloneDeliverable(undefined), null);
+  });
+});
+
+describe('cloneTaskGroup', () => {
+  it('strips _id from group and nested tasks', () => {
+    const rawGroup = {
+      _id: '507f1f77bcf86cd799439020',
+      title: 'Quizzes',
+      weight: 20,
+      isEvenWeight: true,
+      tasks: [
+        { _id: '507f1f77bcf86cd799439021', title: 'Q1', weight: 10, completed: true, graded: true },
+        { _id: '507f1f77bcf86cd799439022', title: 'Q2', weight: 10, completed: false, graded: false },
+      ],
+    };
+    const cloned = cloneTaskGroup(rawGroup);
+    assert.equal(cloned._id, undefined);
+    assert.equal(cloned.title, 'Quizzes');
+    assert.equal(cloned.tasks.length, 2);
+    assert.equal(cloned.tasks[0]._id, undefined);
+    assert.equal(cloned.tasks[0].title, 'Q1');
+    assert.equal(cloned.tasks[1]._id, undefined);
+    assert.equal(cloned.tasks[1].title, 'Q2');
+  });
+
+  it('returns null for null or undefined input', () => {
+    assert.equal(cloneTaskGroup(null), null);
+    assert.equal(cloneTaskGroup(undefined), null);
+  });
+});
+

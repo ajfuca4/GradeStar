@@ -44,12 +44,65 @@ This document catalogs the functions supporting course creation, course fetching
 
 ---
 
-### [`listCourseTasks(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L50-L64)
-- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 50-64)
+### [`deleteCourse(userId, courseId)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L51-L62)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 51-62)
+- **Signature**: `async function deleteCourse(userId: string, courseId: string): Promise<Array<string>|null>`
+- **Brief Purpose**: Pulls a course subdocument by ID from the user record, saves changes, and returns updated unique terms.
+- **Where Called From**:
+  - [src/features/courses/course-routes.js:133](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L133) — in `DELETE /courses/:courseId`.
+- **What Other Functions It Calls**:
+  - `User.findById(userId)` — retrieves user document.
+  - `user.courses.pull({ _id: courseId })` — removes course subdocument.
+  - `user.save()` — persists updated user to MongoDB.
+  - [`getUniqueTermsForCourses(user.courses)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L156-L173) — computes remaining active terms.
+
+---
+
+### [`cloneDeliverable(task)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L64-L69)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 64-69)
+- **Signature**: `function cloneDeliverable(task: object): object|null`
+- **Brief Purpose**: Pure helper that deep-clones a task subdocument object and strips its `_id` so Mongoose can assign a new unique ID upon duplication.
+- **Where Called From**:
+  - [src/features/courses/course-service.js:76,105](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L76) — in `cloneTaskGroup()` and `duplicateCourse()`.
+  - [src/features/courses/course-service.test.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js) — unit tests.
+- **What Other Functions It Calls**:
+  - `task.toObject()` (if available) or object spread.
+
+---
+
+### [`cloneTaskGroup(group)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L71-L79)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 71-79)
+- **Signature**: `function cloneTaskGroup(group: object): object|null`
+- **Brief Purpose**: Pure helper that clones a task group and its nested tasks, stripping `_id` from all levels so new subdocument IDs are generated upon duplication.
+- **Where Called From**:
+  - [src/features/courses/course-service.js:104](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L104) — in `duplicateCourse()`.
+  - [src/features/courses/course-service.test.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js) — unit tests.
+- **What Other Functions It Calls**:
+  - [`cloneDeliverable(task)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L64-L69) — strips ID from each child task.
+
+---
+
+### [`duplicateCourse(userId, courseId)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L81-L113)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 81-113)
+- **Signature**: `async function duplicateCourse(userId: string, courseId: string): Promise<Course|null>`
+- **Brief Purpose**: Duplicates an existing course, appending "(1)" to the title, cloning task groups and unique tasks with fresh IDs, and saving the new course to MongoDB.
+- **Where Called From**:
+  - [src/features/courses/course-routes.js:147](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L147) — in `POST /courses/:courseId/duplicate`.
+- **What Other Functions It Calls**:
+  - `mongoose.Types.ObjectId.isValid(courseId)` — validates hex string format.
+  - `User.findById(userId)` — retrieves user document.
+  - `user.courses.id(courseId)` — loads existing course.
+  - [`cloneTaskGroup(group)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L71-L79), [`cloneDeliverable(task)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L64-L69) — strips `_id`s.
+  - `user.courses.create(...)`, `user.courses.push(...)`, `user.save()` — creates and persists subdocument.
+
+---
+
+### [`listCourseTasks(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L119-L130)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 119-130)
 - **Signature**: `function listCourseTasks(course: object): Array<{ title: string, weight: number }>`
 - **Brief Purpose**: Flattens grouped tasks and unique tasks from a course object into a single array sorted by descending weight.
 - **Where Called From**:
-  - [src/features/courses/course-routes.js:119](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L119) — in `GET /courses/:courseId` view rendering.
+  - [src/features/courses/course-routes.js:122](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L122) — in `GET /courses/:courseId` view rendering.
   - [src/features/courses/course-service.test.js:59,64](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js#L59) — unit test assertions.
 - **What Other Functions It Calls**:
   - `Array.prototype.flatMap()` — flattens task groups into an array of tasks.
@@ -59,46 +112,61 @@ This document catalogs the functions supporting course creation, course fetching
 
 ---
 
-### [`collectDueDates(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L70-L80)
-- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 70-80)
+### [`collectDueDates(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L132-L142)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 132-142)
 - **Signature**: `function collectDueDates(course: object): Array<Date>`
 - **Brief Purpose**: Collects and validates all dueDate values from both grouped tasks and unique tasks into a normalized array of Date instances.
 - **Where Called From**:
-  - [src/features/courses/course-service.js:90](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L90) (in [`buildCourseCalendar()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L89-L92)).
+  - [src/features/courses/course-service.js:145](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L145) (in [`buildCourseCalendar()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L144-L147)).
 - **What Other Functions It Calls**:
   - `Array.prototype.flatMap()`, `map()`, `filter()`.
   - `Date.prototype.getTime()`, `Number.isNaN()`.
 
 ---
 
-### [`buildCourseCalendar(course, targetDate, today)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L89-L92)
-- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 89-92)
+### [`buildCourseCalendar(course, targetDate, today)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L144-L147)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 144-147)
 - **Signature**: `function buildCourseCalendar(course: object, targetDate?: Date|object, today?: Date): object`
 - **Brief Purpose**: Extracts course task deadlines and passes them to the shared calendar grid builder to compute month cells, indicators, and navigation links.
 - **Where Called From**:
-  - [src/features/courses/course-routes.js:82](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L82) — in `GET /courses/:courseId/calendar`.
-  - [src/features/courses/course-routes.js:99](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L99) — in `GET /courses/:courseId`.
-  - [src/features/courses/course-service.test.js:79,90,109,127,147,154,170,171](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js#L79) — unit test assertions.
+  - [src/features/courses/course-routes.js:85](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L85) — in `GET /courses/:courseId/calendar`.
+  - [src/features/courses/course-routes.js:102](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L102) — in `GET /courses/:courseId`.
+  - [src/features/courses/course-service.test.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js) — unit test assertions.
 - **What Other Functions It Calls**:
-  - [`collectDueDates(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L70-L80) — gathers dates from deliverables.
+  - [`collectDueDates(course)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L132-L142) — gathers dates from deliverables.
   - [`calendarService.buildCalendarGrid({ dueDates, targetDate, today })`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/shared/calendar/calendar-service.js#L58-L135) — builds the grid model.
 
 ---
 
-### [`isCoursesPath(pathname)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L94-L99)
-- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 94-99)
+### [`isCoursesPath(pathname)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L149-L154)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 149-154)
 - **Signature**: `function isCoursesPath(pathname: string): boolean`
 - **Brief Purpose**: Tests whether a URL pathname belongs to the courses area (`/courses`, `/courses/`, or nested routes).
 - **Where Called From**:
-  - [src/features/courses/course-service.test.js:10,14,18,24,29,40](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js#L10) — unit test assertions.
+  - [src/features/courses/course-service.test.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js) — unit test assertions.
 - **What Other Functions It Calls**:
   - `RegExp.prototype.test()` (`/(?:^|\/)courses(?:\/|\?|#|$)/`).
 
 ---
 
+### [`getUniqueTermsForCourses(courses)`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L156-L173)
+- **File**: [src/features/courses/course-service.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js) (lines 156-173)
+- **Signature**: `function getUniqueTermsForCourses(courses: Array<object>): Array<string>`
+- **Brief Purpose**: Extracts unique trimmed term strings from an array of course objects, preserving first-seen order.
+- **Where Called From**:
+  - [src/features/courses/course-routes.js:39](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L39) — in `GET /courses`.
+  - [src/features/courses/course-service.js:61](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L61) — in `deleteCourse()`.
+  - [src/features/courses/course-service.test.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.test.js) — unit test assertions.
+- **What Other Functions It Calls**:
+  - `Set`, `Array.from()`.
+
+---
+
 ## 2. Course HTTP Routes (`src/features/courses/course-routes.js`)
 
-- **`GET /courses`** ([lines 36-47](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L36-L47)): Calls [`courseService.getCoursesForUser()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L4-L15) and renders dashboard view `views/courses/courses.ejs`.
-- **`POST /courses`** ([lines 50-70](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L50-L70)): Accepts `{ title, code }`, validates strings, calls [`courseService.createCourse()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L30-L48), and returns `{ id }` with HTTP status 201.
-- **`GET /courses/:courseId/calendar`** ([lines 73-87](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L73-L87)): Parses query params with [`parseCalendarQuery()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/shared/calendar/calendar-service.js#L35-L49), builds grid with [`buildCourseCalendar()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L89-L92), and sends JSON for AJAX calendar navigation.
-- **`GET /courses/:courseId`** ([lines 90-125](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L90-L125)): Loads course, computes calendar and sorted deliverables with [`listCourseTasks()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L50-L64), and renders individual course view `views/courses/course.ejs`.
+- **`GET /courses`** ([lines 36-49](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L36-L49)): Calls [`courseService.getCoursesForUser()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L4-L15) and renders dashboard view `views/courses/courses.ejs`.
+- **`POST /courses`** ([lines 52-73](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L52-L73)): Accepts `{ title, code, term }`, validates strings, calls [`courseService.createCourse()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L30-L49), and returns `{ id }` with HTTP status 201.
+- **`GET /courses/:courseId/calendar`** ([lines 76-90](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L76-L90)): Parses query params with [`parseCalendarQuery()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/shared/calendar/calendar-service.js#L35-L49), builds grid with [`buildCourseCalendar()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L144-L147), and sends JSON for AJAX calendar navigation.
+- **`GET /courses/:courseId`** ([lines 93-128](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L93-L128)): Loads course, computes calendar and sorted deliverables with [`listCourseTasks()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L119-L130), and renders individual course view `views/courses/course.ejs`.
+- **`DELETE /courses/:courseId`** ([lines 131-142](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L131-L142)): Calls [`courseService.deleteCourse()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L51-L62) and returns JSON `{ terms }` with status 200.
+- **`POST /courses/:courseId/duplicate`** ([lines 145-157](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-routes.js#L145-L157)): Calls [`courseService.duplicateCourse()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/src/features/courses/course-service.js#L81-L113) and returns JSON `{ id }` with HTTP status 201.

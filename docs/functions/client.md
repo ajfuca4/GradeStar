@@ -79,14 +79,15 @@ This document catalogs all client-side JavaScript functions, module exports, and
 
 ---
 
-### Course Card Options Dropdown (`options.js`)
-- **File**: [public/scripts/courses/options.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/scripts/courses/options.js) (lines 3-14)
-- **Brief Purpose**: Toggles the `.visible` CSS class on the `.dropdown-container` attached to a course card options button.
-- **Where Called From**: Browser DOM event (`click` on `.options-btn`).
+### Course Card Options & Actions (`options.js`)
+- **File**: [public/scripts/courses/options.js](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/scripts/courses/options.js) (lines 3-112)
+- **Brief Purpose**: Global delegated click handler managing course card options dropdown toggles, course deletion, and immediate course duplication in the DOM.
+- **Where Called From**: Browser DOM events (`click` on `document` targeting `.options-btn`, `[data-action="delete"]`, `[data-action="duplicate"]`).
 - **What Other Functions It Calls**:
-  - `event.target.closest('.options-wrapper')`.
-  - `target.getElementsByClassName('dropdown-container')`.
-  - `classList.contains()`, `classList.add()`, `classList.remove()`.
+  - `event.target.closest()`, `classList.toggle()`, `classList.remove()`.
+  - `fetch('/courses/:courseId', { method: 'DELETE' })` — deletes course, removes card, toggles empty state, calls `updateTermList()`.
+  - `fetch('/courses/:courseId/duplicate', { method: 'POST' })` — duplicates course on server, clones card into DOM, updates IDs/links/titles, calls `updateTermList()`.
+  - [`updateTermList()`](file:///Users/anthonyfuca/Desktop/Programming/GradeStar/public/scripts/courses/popup.js#L23-L71).
 
 ---
 

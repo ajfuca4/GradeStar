@@ -141,5 +141,30 @@ router.delete('/:courseId', async (req, res, next) => {
   }
 });
 
+// POST /courses/:courseId/duplicate
+router.post('/:courseId/duplicate', async (req, res, next) => {
+  try {
+    const course = await courseService.duplicateCourse(req.session.userId, req.params.courseId);
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    const courses = await courseService.getCoursesForUser(req.session.userId);
+    const terms = courseService.getUniqueTermsForCourses(courses);
+    res.status(201).json({
+      id: course._id.toString(),
+      course: {
+        _id: course._id.toString(),
+        title: course.title,
+        code: course.code,
+        term: course.term,
+        grade: course.grade,
+      },
+      terms,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 module.exports = router;
