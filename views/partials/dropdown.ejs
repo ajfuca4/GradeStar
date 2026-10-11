@@ -1,6 +1,5 @@
 <ul class="dropdown-container">
-    <%- include('../partials/dropdown-item.ejs') %>
-        <%- include('../partials/dropdown-item.ejs') %>
-            <%- include('../partials/dropdown-item.ejs') %>
-                <%- include('../partials/dropdown-item.ejs') %>
+    <% options.forEach(option=> { %>
+        <%- include('../partials/dropdown-item.ejs', {option}) %>
+            <% }) %>
 </ul>

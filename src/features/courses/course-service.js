@@ -148,5 +148,8 @@ module.exports = {
   parseCalendarQuery: calendarService.parseCalendarQuery,
   resolveCalendarDate: calendarService.resolveCalendarDate,
   isCoursesPath,
+  deleteCourse,
+  duplicateCourse,
+  editCourse,
 };
 
