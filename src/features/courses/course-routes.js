@@ -166,5 +166,19 @@ router.post('/:courseId/duplicate', async (req, res, next) => {
   }
 });
 
+// PATCH /courses/:courseId/edit
+router.patch('/:courseId/edit', async (req, res, next) => {
+  try {
+    const course = await courseService.editCourse(req.session.userId, req.params.courseId, req.body);
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+
+  } catch (err) {
+    next(err);
+  }
+})
 
 module.exports = router;

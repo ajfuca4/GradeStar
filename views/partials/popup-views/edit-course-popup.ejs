@@ -1,0 +1,34 @@
+<div class="input-group">
+    <span class="subtle-text"> Course Code </span>
+    <input id="course-code-input" type="text" placeholder="e.g. 'ABC123'" autocomplete="off">
+    <div id="code-error" class="err-text shrink"></div>
+</div>
+<div class="input-group">
+    <span class="subtle-text"> Course Title </span>
+    <input id="course-title-input" type="text" placeholder="e.g. 'Introduction to Business'" autocomplete="off">
+    <div id="title-error" class="err-text shrink"></div>
+</div>
+<div class="input-group">
+    <span class="subtle-text"> Term (Optional)</span>
+    <input id="course-term-input" type="text" placeholder="e.g. 'Fall 2026'" autocomplete="off">
+    <% const termList=(typeof terms !=='undefined' && Array.isArray(terms)) ? terms : (typeof courses !=='undefined' &&
+        Array.isArray(courses) ? Array.from(new Set(courses.map(c=> typeof c.term === 'string' ? c.term.trim() :
+        '').filter(Boolean)))
+        : []);
+        %>
+        <% if (termList.length> 0) { %>
+            <div class="term-tags-wrapper">
+                <div class="term-tags-list" role="group" aria-label="Existing course terms">
+                    <% termList.forEach(function(termItem) { %>
+                        <button type="button" class="term-tag-btn" data-term="<%= termItem %>"
+                            title="Use <%= termItem %>">
+                            <%= termItem %>
+                        </button>
+                        <% }) %>
+                </div>
+            </div>
+            <% } %>
+</div>
+<button type="button" id="update-course-btn" class="emphasis-btn">
+    Update Course
+</button>

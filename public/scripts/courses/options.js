@@ -1,4 +1,4 @@
-import { updateTermList } from './popup.js';
+import { openPopUp, closePopUp, updateTermList } from './popup.js';
 
 document.addEventListener('click', async (event) => {
     // Toggle options dropdown
@@ -114,33 +114,27 @@ document.addEventListener('click', async (event) => {
     // Edit course
     const editBtn = event.target.closest('.dropdown-item[data-action="edit"]');
     if (editBtn) {
-        const courseCard = duplicateBtn.closest('.course-card');
+        const courseCard = editBtn.closest('.course-card');
         if (!courseCard) return;
 
         const courseId = courseCard.dataset.courseId;
 
-        try {
-            const response = await fetch(`/courses/${courseId}/edit`, {
-                method: 'PATCH',
-            });
+        openPopUp('edit-course-tmpl');
+        document.getElementById('popup-header-text').textContent = `Edit Course `;
 
-            if (response.ok) {
-                const data = await response.json().catch(() => null);
-                const newTitle = data?.course?.title;
-                const newCode = data?.course?.code;
-                const newTerm = data?.course?.term;
-                const newColour = data?.course?.colour;
 
-                courseCard.querySelector('.course-card-text1').textContent = newTitle;
-                courseCard.querySelector('.course-card-text2').textContent = `${newCode} • ${newTerm}`;
+    }
+});
 
-                courseCard.classList.remove('red', 'orange', 'yellow', 'lime', 'green', 'teal', 'sky', 'blue', 'purple', 'magenta', 'pink', 'brown', 'gray', 'default-white');
-                courseCard.classList.add(newColour);
-            }
-        }
-        catch (err) {
-            console.error("Network Error editing course:", err);
-        }
+document.addEventListener('click', (event) => {
+    const openTrigger = event.target.closest('[data-popup-open]');
+    if (openTrigger) {
+        openPopUp(openTrigger.getAttribute('data-popup-open'));
+        return;
+    }
+
+    if (event.target.closest('[data-popup-close]')) {
+        closePopUp();
     }
 });
 

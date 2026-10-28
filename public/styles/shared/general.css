@@ -30,7 +30,7 @@
 .err-text {
     color: rgb(175, 0, 0);
     font-weight: 300;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .submit-btn {
@@ -53,7 +53,7 @@
     background-color: #4565a0;
 }
 
-.inputErr {
+.input-err {
     background-color: rgb(255, 170, 170);
 }
 
@@ -230,7 +230,7 @@ ul {
 
 .grey {
     --muted-color: rgb(187, 187, 187);
-    --bright-color: rgb(145, 145, 145);
+    --bright-color: rgb(58, 58, 58);
 }
 
 .brown {
@@ -240,7 +240,7 @@ ul {
 
 .default-white {
     --muted-color: var(--background-grey-color);
-    --bright-color: var(--gradestar-purple2-color);
+    --bright-color: var(--gradestar-purple1-color);
 }
 
 .selectable-btn {
@@ -408,6 +408,12 @@ input[type="text"]::placeholder {
     color: var(--border-grey-color);
     font-size: 0.75rem;
 }
+
+input[type="text"].input-err::placeholder {
+    color: rgb(0, 0, 0, 0.3);
+    opacity: 1;
+}
+
 
 input[type="text"]:focus {
     border-color: var(--gradestar-purple2-color);

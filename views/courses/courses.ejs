@@ -16,7 +16,7 @@
         </button>
     </header>
     <ul class="content-list">
-        <li id="empty-courses-state" <%= courses.length > 0 ? 'hidden' : '' %>>
+        <li id="empty-courses-state" <%=courses.length> 0 ? 'hidden' : '' %>>
             <button type="button" class="add-course-card" data-popup-open="add-course-tmpl">
                 <span class="add-course-card-icon circle center-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
@@ -31,10 +31,14 @@
         </li>
         <% courses.forEach(function(c) { %>
             <%- include("../partials/course-card.ejs", { courseItem: c }) %>
-        <% }) %>
+                <% }) %>
     </ul>
 
     <template id="add-course-tmpl">
-        <%- include("../partials/popup-views/add-course-popup.ejs", { terms: (typeof terms !=='undefined' ? terms : [])
-            }) %>
+        <%- include("../partials/popup-views/add-course-popup.ejs", { terms: (typeof terms !=='undefined' ? terms : []),
+            header: "Add a Course" }) %>
+    </template>
+
+    <template id="edit-course-tmpl">
+        <%- include("../partials/popup-views/edit-course-popup.ejs") %>
     </template>

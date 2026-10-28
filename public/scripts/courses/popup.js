@@ -1,3 +1,122 @@
+const templateInitializers = {
+    'add-course-tmpl': initAddCoursePopup,
+    'edit-course-tmpl': initEditCoursePopup
+};
+
+function initAddCoursePopup() {
+    const popupWindow = document.getElementById('popup-window');
+    const codeInput = document.getElementById('course-code-input');
+    const titleInput = document.getElementById('course-title-input');
+    const termInput = document.getElementById('course-term-input');
+    const tags = document.querySelectorAll('.term-tag-btn');
+    const titleError = document.getElementById('title-error');
+    const codeError = document.getElementById('code-error');
+    const createCourseBtn = document.getElementById('create-course-btn');
+
+    tags.forEach(tag => {
+        tag.addEventListener('click', (event) => {
+            const selectedTerm = tag.getAttribute('data-term') || termTag.textContent.trim();
+            termInput.value = selectedTerm;
+            syncActiveTermTags(selectedTerm);
+            termInput.focus();
+            return;
+        });
+    });
+
+    popupWindow.addEventListener('submit', (event) => {
+        event.preventDefault();
+        document.getElementById('create-course-btn')?.click();
+    });
+
+    createCourseBtn.addEventListener('click', async (event) => {
+
+        const code = codeInput?.value.trim() ?? '';
+        const title = titleInput?.value.trim() ?? '';
+        const term = termInput?.value.trim() ?? '';
+
+        if (!code || code.length > 100) {
+            codeInput.classList.add('input-err');
+            codeError?.classList.remove('shrink');
+            codeError.textContent = !code ? 'Enter a course code.' : code.length > 100 ? 'Course code must be less than 100 characters.' : '';
+            return
+        }
+
+        if (!title || title.length > 100) {
+            titleInput.classList.add('input-err');
+            titleError?.classList.remove('shrink');
+            titleError.textContent = !title ? 'Enter a course title.' : title.length > 100 ? 'Course title must be less than 100 characters.' : '';
+            return
+        }
+
+        createCourseBtn.disabled = true;
+        try {
+            const response = await fetch('/courses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ code, title, term }),
+            });
+
+            const isJson = response.headers.get('content-type')?.includes('application/json');
+            const data = isJson ? await response.json() : null;
+
+            if (response.redirected && response.url.includes('/login')) {
+                window.location.href = '/login';
+                return;
+            }
+
+            if (!response.ok || !data?.id) {
+                if (error) error.textContent = data?.error || 'Could not create the course.';
+                createCourseBtn.disabled = false;
+                return;
+            }
+            window.location.href = `/courses/${data.id}`;
+        } catch (err) {
+            console.log(err);
+            createCourseBtn.disabled = false;
+        }
+    });
+
+    [codeInput, titleInput].forEach((input) => {
+        input.addEventListener('input', (event) => {
+            if (input.id === 'course-code-input') {
+                codeError.classList.add('shrink')
+                codeInput.classList.remove('input-err');
+            }
+
+            if (input.id === 'course-title-input') {
+                titleError.classList.add('shrink');
+                titleInput.classList.remove('input-err');
+            }
+        });
+    });
+}
+
+function initEditCoursePopup() {
+    const popupWindow = document.getElementById('popup-window');
+    const codeInput = document.getElementById('course-code-input');
+    const titleInput = document.getElementById('course-title-input');
+    const termInput = document.getElementById('course-term-input');
+    const tags = document.querySelectorAll('.term-tag-btn');
+    const titleError = document.getElementById('title-error');
+    const codeError = document.getElementById('code-error');
+    const updateCourseBtn = document.getElementById('update-course-btn');
+}
+
+document.addEventListener('click', (event) => {
+    const openTrigger = event.target.closest('[data-popup-open]');
+    if (openTrigger) {
+        openPopUp(openTrigger.getAttribute('data-popup-open'));
+        return;
+    }
+
+    if (event.target.closest('[data-popup-close]')) {
+        closePopUp();
+    }
+});
+
 function syncActiveTermTags(currentValue) {
     const trimmed = (currentValue || '').trim().toLowerCase();
     const tags = document.querySelectorAll('.term-tag-btn');
@@ -5,6 +124,13 @@ function syncActiveTermTags(currentValue) {
         const val = (tag.getAttribute('data-term') || tag.textContent).trim().toLowerCase();
         tag.classList.toggle('active', Boolean(trimmed) && val === trimmed);
     });
+}
+
+function lessThanOneHundredChars(str) {
+    if (str.length > 100) {
+        return false;
+    }
+    return true;
 }
 
 export function openPopUp(templateId) {
@@ -15,11 +141,21 @@ export function openPopUp(templateId) {
         console.error('openPopUp: no <template> with id', templateId);
         return;
     }
+
+    popup.dataset.activeTemplate = templateId;
+
     popupContent.replaceChildren(tpl.content.cloneNode(true));
     popup.style.visibility = 'visible';
     syncActiveTermTags('');
+
+    templateInitializers[templateId]?.(popupContent);
 }
 
+export function activePopupTemplate() {
+    return document.getElementById('overlay')?.dataset.activeTemplate ?? null;
+}
+
+// TODO: THIS MAY BE SPECIFIC TO A PARTICULAR TEMPLATE
 export function updateTermList(terms = []) {
     const termArray = Array.isArray(terms) ? terms : [];
 
@@ -73,32 +209,9 @@ export function updateTermList(terms = []) {
 export function closePopUp() {
     // CLEAR ALL FILLED OUT FIELDS? MAYBE? MIGHT BE BETTER FOR UX IF NOT CLEARED IDK
     const popup = document.getElementById('overlay');
+    popup.dataset.activeTemplate = '';
     popup.style.visibility = 'hidden';
 }
-
-document.addEventListener('click', (event) => {
-    const termTag = event.target.closest('.term-tag-btn');
-    if (termTag) {
-        const termInput = document.getElementById('course-term-input');
-        if (termInput) {
-            const selectedTerm = termTag.getAttribute('data-term') || termTag.textContent.trim();
-            termInput.value = selectedTerm;
-            syncActiveTermTags(selectedTerm);
-            termInput.focus();
-        }
-        return;
-    }
-
-    const openTrigger = event.target.closest('[data-popup-open]');
-    if (openTrigger) {
-        openPopUp(openTrigger.getAttribute('data-popup-open'));
-        return;
-    }
-
-    if (event.target.closest('[data-popup-close]')) {
-        closePopUp();
-    }
-});
 
 const popupForm = document.getElementById('popup-window');
 if (popupForm) {
@@ -121,56 +234,4 @@ document.addEventListener('input', (event) => {
     event.target.classList.remove('inputErr');
     const error = document.getElementById('create-course-error');
     if (error) error.textContent = '';
-});
-
-document.addEventListener('click', async (event) => {
-    const button = event.target.closest('#create-course-btn');
-    if (!button || button.disabled) return;
-
-    const codeInput = document.getElementById('course-code-input');
-    const titleInput = document.getElementById('course-title-input');
-    const termInput = document.getElementById('course-term-input');
-    const error = document.getElementById('create-course-error');
-    const code = codeInput?.value.trim() ?? '';
-    const title = titleInput?.value.trim() ?? '';
-    const term = termInput?.value.trim() ?? '';
-
-    codeInput?.classList.toggle('inputErr', !code);
-    titleInput?.classList.toggle('inputErr', !title);
-
-    if (!code || !title) {
-        if (error) error.textContent = 'Enter a course code and title.';
-        return;
-    }
-
-    button.disabled = true;
-    try {
-        const response = await fetch('/courses', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({ code, title, term }),
-        });
-
-        const isJson = response.headers.get('content-type')?.includes('application/json');
-        const data = isJson ? await response.json() : null;
-
-        if (response.redirected && response.url.includes('/login')) {
-            window.location.href = '/login';
-            return;
-        }
-
-        if (!response.ok || !data?.id) {
-            if (error) error.textContent = data?.error || 'Could not create the course.';
-            button.disabled = false;
-            return;
-        }
-
-        window.location.href = `/courses/${data.id}`;
-    } catch {
-        if (error) error.textContent = 'Could not create the course.';
-        button.disabled = false;
-    }
 });

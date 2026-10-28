@@ -111,8 +111,22 @@ async function duplicateCourse(userId, courseId) {
   return newCourse;
 }
 
-function editCourse() {
-  console.log("editCourse");
+async function editCourse(userId, courseId, updates = {}) {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return null;
+  }
+
+  const course = user.courses.id(courseId);
+  if (!course) {
+    return null;
+  }
+
+  const updatedCourse = course.set(updates);
+
+  await user.save();
+  return updatedCourse;
 }
 
 function listCourseTasks(course) {
